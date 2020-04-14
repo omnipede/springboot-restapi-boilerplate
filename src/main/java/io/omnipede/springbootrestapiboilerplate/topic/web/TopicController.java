@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TopicController {
 
-	// TODO: Swagger를 이용한 API 문서 생
+	// TODO: Swagger를 이용한 API 문서 생성.
 	
 	// 모든 토픽 반환.
 	@RequestMapping("/topics")
