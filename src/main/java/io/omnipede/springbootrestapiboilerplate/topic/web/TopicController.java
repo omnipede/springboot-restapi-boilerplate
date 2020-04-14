@@ -38,8 +38,8 @@ public class TopicController {
 		topicService.addTopic(topic);
 	}
 	
-	// Id로 토픽을 하나 찾고, 해당 토픽을 업데이트.
-	@RequestMapping(method=RequestMethod.PUT, value="/topics/{id}")
+	// 토픽을 하나 찾고, 해당 토픽을 업데이트.
+	@RequestMapping(method=RequestMethod.PUT, value="/topics")
 	public void updateTopic(@RequestBody Topic topic) {
 		topicService.updateTopic(topic);
 	}
