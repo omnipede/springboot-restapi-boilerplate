@@ -3,7 +3,6 @@ package io.omnipede.springbootrestapiboilerplate.topic.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +27,7 @@ public class TopicController {
 	public ResponseEntity<OkResponse<List<Topic>>> getAllTopics() {
 		List<Topic> topicList = topicService.getAllTopics();
 		OkResponse<List<Topic>> response = new OkResponse<>(topicList);
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return ResponseEntity.ok(response);
 	}
 	
 	// Id로 토픽을 하나 찾아서 반환.
@@ -36,7 +35,7 @@ public class TopicController {
 	public ResponseEntity<OkResponse<Topic>> getTopic(@PathVariable String id) {
 		Topic topic = topicService.getTopics(id);
 		OkResponse<Topic> response = new OkResponse<>(topic);
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return ResponseEntity.ok(response);
 	}
 	
 	// 토픽 추가.
@@ -44,7 +43,7 @@ public class TopicController {
 	public ResponseEntity<OkResponse<?>> addTopic(@RequestBody Topic topic) {
 		topicService.addTopic(topic);
 		OkResponse<?> response = new OkResponse<>();
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return ResponseEntity.ok(response);
 	}
 	
 	// 토픽을 하나 찾고, 해당 토픽을 업데이트.
@@ -52,7 +51,7 @@ public class TopicController {
 	public ResponseEntity<OkResponse<?>> updateTopic(@RequestBody Topic topic) {
 		topicService.updateTopic(topic);
 		OkResponse<?> response = new OkResponse<>();
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return ResponseEntity.ok(response);
 	}
 	
 	// Id로 토픽을 하나 찾고, 해당 토픽을 삭제함.
@@ -60,6 +59,6 @@ public class TopicController {
 	public ResponseEntity<OkResponse<?>> deleteTopic(@PathVariable String id) {
 		topicService.deleteTopic(id);
 		OkResponse<?> response = new OkResponse<>();
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return ResponseEntity.ok(response);
 	}
 }

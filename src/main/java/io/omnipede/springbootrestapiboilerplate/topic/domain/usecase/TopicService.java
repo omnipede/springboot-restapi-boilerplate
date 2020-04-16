@@ -25,6 +25,11 @@ public class TopicService {
 	public List<Topic> getAllTopics() {
 		List<Topic> topics = new ArrayList<>();
 		topicRepository.findAll().forEach(topics::add);
+		// topic이 하나도 없으면 예외처리.
+		if (topics.size() <= 0) {
+			throw new BusinessException(ErrorCode.RESOURCE_NOT_EXISTS);
+		}
+		// topic list 반환.
 		return topics;
 	}
 	
