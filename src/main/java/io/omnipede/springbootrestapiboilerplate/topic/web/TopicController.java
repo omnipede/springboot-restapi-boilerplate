@@ -3,12 +3,15 @@ package io.omnipede.springbootrestapiboilerplate.topic.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.omnipede.springbootrestapiboilerplate.common.model.response.OkResponse;
 import io.omnipede.springbootrestapiboilerplate.topic.domain.entity.Topic;
 import io.omnipede.springbootrestapiboilerplate.topic.domain.usecase.TopicService;
 
@@ -22,31 +25,41 @@ public class TopicController {
 	
 	// 모든 토픽 반환.
 	@RequestMapping("/topics")
-	public List<Topic> getAllTopics() {
-		return topicService.getAllTopics();
+	public ResponseEntity<OkResponse<List<Topic>>> getAllTopics() {
+		List<Topic> topicList = topicService.getAllTopics();
+		OkResponse<List<Topic>> response = new OkResponse<>(topicList);
+		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
 	}
 	
 	// Id로 토픽을 하나 찾아서 반환.
 	@RequestMapping("/topics/{id}")
-	public Topic getTopic(@PathVariable String id) {
-		return topicService.getTopics(id);
+	public ResponseEntity<OkResponse<Topic>> getTopic(@PathVariable String id) {
+		Topic topic = topicService.getTopics(id);
+		OkResponse<Topic> response = new OkResponse<>(topic);
+		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
 	}
 	
 	// 토픽 추가.
 	@RequestMapping(method=RequestMethod.POST, value="/topics")
-	public void addTopic(@RequestBody Topic topic) {
+	public ResponseEntity<OkResponse<?>> addTopic(@RequestBody Topic topic) {
 		topicService.addTopic(topic);
+		OkResponse<?> response = new OkResponse<>();
+		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
 	}
 	
 	// 토픽을 하나 찾고, 해당 토픽을 업데이트.
 	@RequestMapping(method=RequestMethod.PUT, value="/topics")
-	public void updateTopic(@RequestBody Topic topic) {
+	public ResponseEntity<OkResponse<?>> updateTopic(@RequestBody Topic topic) {
 		topicService.updateTopic(topic);
+		OkResponse<?> response = new OkResponse<>();
+		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
 	}
 	
 	// Id로 토픽을 하나 찾고, 해당 토픽을 삭제함.
 	@RequestMapping(method=RequestMethod.DELETE, value="/topics/{id}")
-	public void deleteTopic(@PathVariable String id) {
+	public ResponseEntity<OkResponse<?>> deleteTopic(@PathVariable String id) {
 		topicService.deleteTopic(id);
+		OkResponse<?> response = new OkResponse<>();
+		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
 	}
 }

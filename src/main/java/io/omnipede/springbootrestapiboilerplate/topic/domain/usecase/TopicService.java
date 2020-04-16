@@ -2,10 +2,13 @@ package io.omnipede.springbootrestapiboilerplate.topic.domain.usecase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.omnipede.springbootrestapiboilerplate.common.exception.BusinessException;
+import io.omnipede.springbootrestapiboilerplate.common.model.ErrorCode;
 import io.omnipede.springbootrestapiboilerplate.topic.domain.entity.Topic;
 import io.omnipede.springbootrestapiboilerplate.topic.domain.entity.TopicRepository;
 
@@ -27,7 +30,13 @@ public class TopicService {
 	
 	// id와 일치하는 토픽을 하나 찾아서 반환.
 	public Topic getTopics(String id) {
-		Topic topic = topicRepository.findById(id).get();
+		Optional<Topic> optionalWrappedTopic = topicRepository.findById(id);
+		// topic 이 존재하지 않으면 예외처리.
+		if (optionalWrappedTopic.isEmpty()){
+			throw new BusinessException(ErrorCode.RESOURCE_NOT_EXISTS);
+		}
+		// topic 반환.
+		Topic topic = optionalWrappedTopic.get();
 		return topic;
 	}
 	
@@ -38,11 +47,23 @@ public class TopicService {
 	
 	// Topic 내용을 업데이트함.
 	public void updateTopic(Topic topic) {
+		Optional<Topic> optionalWrappedTopic = topicRepository.findById(topic.getId());
+		// 업데이트할 topic이 존재하지 않으면 예외처리.
+		if (optionalWrappedTopic.isEmpty()) {
+			throw new BusinessException(ErrorCode.RESOURCE_NOT_EXISTS);
+		}
+		// topic 업데이트.
 		topicRepository.save(topic);
 	}
 	
 	// id값을 가지는 topic을 전부 삭제함.
 	public void deleteTopic(String id) {
+		Optional<Topic> optionalWrappedTopic = topicRepository.findById(id);
+		// 삭제할 topic이 존재하지 않으면 예외처리.
+		if (optionalWrappedTopic.isEmpty()) {
+			throw new BusinessException(ErrorCode.RESOURCE_NOT_EXISTS);
+		}
+		// topic 삭제.
 		topicRepository.deleteById(id);
 	}
 }
