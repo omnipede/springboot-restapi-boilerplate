@@ -2,7 +2,6 @@ package io.omnipede.springbootrestapiboilerplate.topic.web;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -10,11 +9,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import io.omnipede.springbootrestapiboilerplate.common.exception.BusinessException;
+import org.json.simple.parser.JSONParser;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,55 +25,57 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.omnipede.springbootrestapiboilerplate.topic.domain.entity.Topic;
 import io.omnipede.springbootrestapiboilerplate.topic.domain.usecase.TopicService;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 /**
  * MockMvc 를 이용한 topic api controller 테스트
- * @see https://siyoon210.tistory.com/145
+ * @see "https://siyoon210.tistory.com/145"
+ * @see "https://www.lesstif.com/java/mockmvc-jsonpath-14090466.html"
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
 public class TopicControllerTest {
-
-	// TODO: 존재하지 않는 url 에 대한 에러 처리 테스트.
-	// TODO: Request body가 적절하지 않을 경우 에러 처리 테스트.
 	
 	@Autowired
 	private MockMvc mockMvc;
 	
 	@Autowired
 	private TopicService topicService;
+
 	
 	// Topic을 json으로 바꿀 때 사용하는 mapper
 	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final JSONParser jsonParser = new JSONParser();
 	
-	@BeforeEach
+	@Before
 	public void before() throws Exception {
 		// 테스트용 topic entity 두 개 추가.
 		topicService.addTopic(new Topic("java", "java topic", "java description"));
 		topicService.addTopic(new Topic("spring", "spring topic", "spring description"));
 	}
-	
+
 	/**
 	 * 모든 토픽 반환하는 api를 테스트하는 함수.
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetAllTopicsApi () throws Exception {
+	public void getAllTopics () throws Exception {
 		// URI endpoint of API
-		final String apiEndPoint = "/topics";
-		// API 호출.
-		mockMvc.perform(get(apiEndPoint))
-		// status code 가 200 인지 확인.
-		.andExpect(status().isOk())
-		// JSON response에 모든 topic entity가 들어있는지 확인.
-		.andExpect(jsonPath("$[0].id", is("java")))
-		.andExpect(jsonPath("$[1].id", is("spring")));
+		final String endPoint = "/topics";
+		// API call
+		mockHelper(get(endPoint))
+				.andExpect(jsonPath("$.data").exists())
+				.andExpect(jsonPath("$.data").isArray())
+				// data 필드에 topic 두 개가 들어있어야 함.
+				.andExpect(jsonPath("$.data[0]").exists())
+				.andExpect(jsonPath("$.data[1]").exists());
 	}
 	
 	/**
@@ -78,17 +83,13 @@ public class TopicControllerTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testGetTopicApi () throws Exception {
+	public void getTopic () throws Exception {
 		// URI endpoint of API
-		final String apiEndPoint = "/topics/java";
+		final String endPoint = "/topics/java";
 		// API 호출.
-		mockMvc.perform(get(apiEndPoint))
-		// status code 200인지 확인
-		.andExpect(status().isOk())
-		// JSON response 확인
-		.andExpect(jsonPath("$.id", is("java")))
-		.andExpect(jsonPath("$.name", is(notNullValue())))
-		.andExpect(jsonPath("$.description", is(notNullValue())));
+		mockHelper(get(endPoint))
+				.andExpect(jsonPath("$.data").exists())
+				.andExpect(jsonPath("$.data").isMap());
 	}
 	
 	/**
@@ -96,24 +97,17 @@ public class TopicControllerTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testAddTopicApi () throws Exception {
+	public void addTopic () throws Exception {
 		// URI endpoint of API
-		final String apiEndPoint = "/topics";
+		final String endPoint = "/topics";
 		
 		// 새로 추가할 topic 생성하고 문자열로 바꿈
 		Topic topicToAdd = new Topic("javascript", "javascript topic", "javascript description");
 		String stringFormatOfTopicToAdd = objectMapper.writeValueAsString(topicToAdd);
-		
+
 		// API 호출
-		mockMvc.perform(
-			post(apiEndPoint)
-			.contentType(MediaType.APPLICATION_JSON)
-			// 새로 추가할 문자열 형태의 topic을 post content body에 넣어줌.
-			.content(stringFormatOfTopicToAdd)
-		)
-		// status code 200인지 확인
-		.andExpect(status().isOk());
-		
+		mockHelper(post(endPoint), stringFormatOfTopicToAdd);
+
 		// 새로 추가된 topic 을 topic service에서 받아온다.
 		Topic addedTopic = topicService.getTopics(topicToAdd.getId());
 		String stringFormatOfAddedTopic = objectMapper.writeValueAsString(addedTopic);
@@ -127,27 +121,20 @@ public class TopicControllerTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testUpdateTopicApi () throws Exception {
+	public void updateTopic () throws Exception {
 		// URI endpoint of API
-		final String apiEndPoint = "/topics";
+		final String endPoint = "/topics";
 		
-		// 업데이트되기 전의 topic을 저장함.
+		// 업데이트되기 전의 topic을 받아옴
 		Topic oldTopic = topicService.getTopics("java");
 		
 		// 업데이트할 topic 생성하고 문자열로 바꿈.
 		Topic topicToUpdate = new Topic("java", "Updated java topic", "Updated java description");
 		String stringFormatOfTopicToUpdate = objectMapper.writeValueAsString(topicToUpdate);
-		
+
 		// API 호출
-		mockMvc.perform(
-			put(apiEndPoint)
-			.contentType(MediaType.APPLICATION_JSON)
-			// 업데이트할 문자열 형태의 topic을 put content body에 넣어줌.
-			.content(stringFormatOfTopicToUpdate)
-		)
-		// status code 200인지 확인.
-		.andExpect(status().isOk());
-		
+		mockHelper(put(endPoint), stringFormatOfTopicToUpdate);
+
 		// 업데이트된 topic을 불러옴.
 		Topic updatedTopic = topicService.getTopics(topicToUpdate.getId());
 		
@@ -163,25 +150,39 @@ public class TopicControllerTest {
 	 * @throws Exception
 	 */
 	@Test
-	public void testDeleteTopicApi () throws Exception {
+	public void deleteTopic () throws Exception {
 		// URI endpoint of api
-		final String apiEndPoint = "/topics/java";
+		final String endPoint = "/topics/java";
 		
 		// 삭제 되기 전 topic을 저장.
 		Topic topicBeforeDeletion = topicService.getTopics("java");
 		
 		// API 호출
-		mockMvc.perform(delete(apiEndPoint))
-		.andExpect(status().isOk());
+		mockHelper(delete(endPoint));
 		
 		// topic이 삭제되었으므로 해당하는 topic을 반환할 수 없음.
 		try {
 			topicService.getTopics(topicBeforeDeletion.getId());
 			// Exception 발생 안하면 테스트 실패.
 			assertTrue(false);
-		} catch (java.util.NoSuchElementException e) {
-			// NoSuchElementException 발생 시 테스트 성공.
+		} catch (BusinessException e) {
+			// Business exception 발생 시 테스트 성공.
 			assertTrue(true);
 		}
+	}
+
+	// Helper method
+	private ResultActions mockHelper(MockHttpServletRequestBuilder builder, String content) throws Exception {
+		return mockHelper(builder.content(content));
+	}
+
+	// Helper method
+	private ResultActions mockHelper(MockHttpServletRequestBuilder builder) throws Exception {
+		return mockMvc.perform(builder.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.status").exists())
+				.andExpect(jsonPath("$.status").value(200))
+				.andDo(print());
 	}
 }
