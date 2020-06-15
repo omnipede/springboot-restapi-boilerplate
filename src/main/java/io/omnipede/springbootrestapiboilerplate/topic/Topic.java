@@ -1,4 +1,4 @@
-package io.omnipede.springbootrestapiboilerplate.topic.domain.entity;
+package io.omnipede.springbootrestapiboilerplate.topic;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

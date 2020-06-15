@@ -1,4 +1,4 @@
-package io.omnipede.springbootrestapiboilerplate.topic.domain.usecase;
+package io.omnipede.springbootrestapiboilerplate.topic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,10 +7,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.omnipede.springbootrestapiboilerplate.common.exception.BusinessException;
-import io.omnipede.springbootrestapiboilerplate.common.model.ErrorCode;
-import io.omnipede.springbootrestapiboilerplate.topic.domain.entity.Topic;
-import io.omnipede.springbootrestapiboilerplate.topic.domain.entity.TopicRepository;
+import io.omnipede.springbootrestapiboilerplate.exception.BusinessException;
+import io.omnipede.springbootrestapiboilerplate.exception.ErrorCode;
+
 
 /**
  * Topic 관련 REST API 에 대한 비즈니스 로직을 구현하는 서비스.

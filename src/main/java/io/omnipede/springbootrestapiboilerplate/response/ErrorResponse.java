@@ -1,6 +1,6 @@
-package io.omnipede.springbootrestapiboilerplate.common.model.response;
+package io.omnipede.springbootrestapiboilerplate.response;
 
-import io.omnipede.springbootrestapiboilerplate.common.model.ErrorCode;
+import io.omnipede.springbootrestapiboilerplate.exception.ErrorCode;
 
 /**
  * API 에러 response 에 사용할 클래스.

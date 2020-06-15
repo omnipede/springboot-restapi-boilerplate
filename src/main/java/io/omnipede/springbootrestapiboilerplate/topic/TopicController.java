@@ -1,4 +1,4 @@
-package io.omnipede.springbootrestapiboilerplate.topic.web;
+package io.omnipede.springbootrestapiboilerplate.topic;
 
 import java.util.List;
 
@@ -10,9 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.omnipede.springbootrestapiboilerplate.common.model.response.OkResponse;
-import io.omnipede.springbootrestapiboilerplate.topic.domain.entity.Topic;
-import io.omnipede.springbootrestapiboilerplate.topic.domain.usecase.TopicService;
+import io.omnipede.springbootrestapiboilerplate.response.OkResponse;
 
 @RestController
 public class TopicController {
@@ -23,7 +21,7 @@ public class TopicController {
 	private TopicService topicService;
 	
 	// 모든 토픽 반환.
-	@RequestMapping("/topics")
+	@RequestMapping(method=RequestMethod.GET, value="/topics")
 	public ResponseEntity<OkResponse<List<Topic>>> getAllTopics() {
 		List<Topic> topicList = topicService.getAllTopics();
 		OkResponse<List<Topic>> response = new OkResponse<>(topicList);
@@ -31,7 +29,7 @@ public class TopicController {
 	}
 	
 	// Id로 토픽을 하나 찾아서 반환.
-	@RequestMapping("/topics/{id}")
+	@RequestMapping(method=RequestMethod.GET, value="/topics/{id}")
 	public ResponseEntity<OkResponse<Topic>> getTopic(@PathVariable String id) {
 		Topic topic = topicService.getTopics(id);
 		OkResponse<Topic> response = new OkResponse<>(topic);

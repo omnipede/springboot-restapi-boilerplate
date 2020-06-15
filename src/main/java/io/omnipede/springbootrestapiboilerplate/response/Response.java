@@ -1,4 +1,4 @@
-package io.omnipede.springbootrestapiboilerplate.common.model.response;
+package io.omnipede.springbootrestapiboilerplate.response;
 
 /**
  * API response 에 사용할 클래스.

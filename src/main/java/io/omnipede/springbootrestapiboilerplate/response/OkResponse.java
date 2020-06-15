@@ -1,4 +1,4 @@
-package io.omnipede.springbootrestapiboilerplate.common.model.response;
+package io.omnipede.springbootrestapiboilerplate.response;
 
 /**
  * Success (200) response 에 사용하는 클래스.

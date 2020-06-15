@@ -1,10 +1,11 @@
-package io.omnipede.springbootrestapiboilerplate.common.model;
+package io.omnipede.springbootrestapiboilerplate.exception;
 
 /**
  * 모든 비즈니스 로직 에러 코드를 관리하는 클래스.
  */
 public enum ErrorCode {
-	
+
+	URL_NOT_FOUND(401, "C401", "Not found url"),
 	RESOURCE_NOT_EXISTS(404, "C001", "Resource not exists"),
 	INTERNAL_SERVER_ERROR(500, "C002", "Internal server error occured");
 	

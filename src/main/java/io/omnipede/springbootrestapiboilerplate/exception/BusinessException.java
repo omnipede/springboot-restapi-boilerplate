@@ -1,6 +1,4 @@
-package io.omnipede.springbootrestapiboilerplate.common.exception;
-
-import io.omnipede.springbootrestapiboilerplate.common.model.ErrorCode;
+package io.omnipede.springbootrestapiboilerplate.exception;
 
 /**
  * API 비즈니스 로직 상에서 에러 발생시 throw 하는 exception.
