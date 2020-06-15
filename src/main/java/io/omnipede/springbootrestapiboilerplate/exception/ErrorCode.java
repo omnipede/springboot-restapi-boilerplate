@@ -6,9 +6,10 @@ package io.omnipede.springbootrestapiboilerplate.exception;
 public enum ErrorCode {
 
 	URL_NOT_FOUND(401, "C401", "Not found url"),
+	BAD_REQUEST(403, "C403", "Bad request"),
 	RESOURCE_NOT_EXISTS(404, "C001", "Resource not exists"),
 	INTERNAL_SERVER_ERROR(500, "C002", "Internal server error occured");
-	
+
 	private final int status;
 	private final String code;
 	private final String message;
