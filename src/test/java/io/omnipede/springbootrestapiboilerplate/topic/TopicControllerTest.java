@@ -15,7 +15,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import io.omnipede.springbootrestapiboilerplate.exception.BusinessException;
-import org.json.simple.parser.JSONParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,7 +49,6 @@ public class TopicControllerTest {
 
     // Topic을 json으로 바꿀 때 사용하는 mapper
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private final JSONParser jsonParser = new JSONParser();
 
     @Before
     public void before() throws Exception {
@@ -167,6 +165,25 @@ public class TopicControllerTest {
             // Business exception 발생 시 테스트 성공.
             assertTrue(true);
         }
+    }
+
+    @Test
+    public void exceptions() throws Exception {
+        // Not found url
+        mockMvc.perform(get("/wrong/uri"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.status").value(401))
+                .andDo(print());
+        // Bad request - No arguments
+        mockMvc.perform(post("/topics"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.status").value(403))
+                .andDo(print());
+        // Bad request - invalid arguments
+        mockMvc.perform(post("/topics").contentType(MediaType.APPLICATION_JSON).content("{\n" + "\"name\": \"java topic\",\n" + "\"description\": \"Simple description\"\n" + "}"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.status").value(403))
+                .andDo(print());
     }
 
     // Helper method
