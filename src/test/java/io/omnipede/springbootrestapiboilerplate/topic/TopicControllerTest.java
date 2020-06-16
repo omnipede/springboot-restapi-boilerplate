@@ -15,8 +15,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import io.omnipede.springbootrestapiboilerplate.exception.BusinessException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -38,7 +38,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TopicControllerTest {
+class TopicControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,7 +50,7 @@ public class TopicControllerTest {
     // Topic을 json으로 바꿀 때 사용하는 mapper
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Before
+    @BeforeEach
     public void before() throws Exception {
         // 테스트용 topic entity 두 개 추가.
         topicService.addTopic(new Topic("java", "java topic", "java description"));
@@ -167,6 +167,10 @@ public class TopicControllerTest {
         }
     }
 
+    /**
+     * API call 시 에러가 발생할 경우 에러를 적절히 처리하는지 테스트
+     * @throws Exception
+     */
     @Test
     public void exceptions() throws Exception {
         // Not found url
