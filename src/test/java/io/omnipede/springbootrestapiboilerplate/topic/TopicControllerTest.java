@@ -176,7 +176,7 @@ class TopicControllerTest {
         // Not found url
         mockMvc.perform(get("/wrong/uri"))
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(401))
+                .andExpect(jsonPath("$.status").value(404))
                 .andDo(print());
         // Bad request - No arguments
         mockMvc.perform(post("/topics"))

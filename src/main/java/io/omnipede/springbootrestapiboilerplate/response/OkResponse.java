@@ -12,12 +12,12 @@ public class OkResponse<T extends Object> extends Response {
 	private T data;
 	
 	public OkResponse() {
-		// Success status code는 200이므로 생성자 매개변수로 200을 넘긴다.
+		// Success status code 는 200이므로 생성자 매개변수로 200을 넘긴다.
 		super(200);
 	}
 	
 	public OkResponse (T data) {
-		// Success status code는 200이므로 생성자 매개변수로 200을 넘긴다.
+		// Success status code 는 200이므로 생성자 매개변수로 200을 넘긴다.
 		super(200);
 		this.data = data;
 	}
