@@ -1,4 +1,4 @@
-package io.omnipede.springbootrestapiboilerplate.exception;
+package io.omnipede.springbootrestapiboilerplate.global.exception;
 
 /**
  * 모든 비즈니스 로직 에러 코드를 관리하는 클래스.

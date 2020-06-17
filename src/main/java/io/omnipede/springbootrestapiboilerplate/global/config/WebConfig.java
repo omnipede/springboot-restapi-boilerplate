@@ -1,4 +1,4 @@
-package io.omnipede.springbootrestapiboilerplate.configurations;
+package io.omnipede.springbootrestapiboilerplate.global.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;

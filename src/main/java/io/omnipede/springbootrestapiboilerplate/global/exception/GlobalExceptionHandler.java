@@ -1,4 +1,4 @@
-package io.omnipede.springbootrestapiboilerplate.exception;
+package io.omnipede.springbootrestapiboilerplate.global.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import io.omnipede.springbootrestapiboilerplate.response.ErrorResponse;
+import io.omnipede.springbootrestapiboilerplate.global.response.ErrorApiResponse;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
@@ -21,57 +21,57 @@ public class GlobalExceptionHandler {
 
 	// Not found url handler
 	@ExceptionHandler(NoHandlerFoundException.class)
-	protected ResponseEntity<ErrorResponse> handleNoHandlerFoundException(final NoHandlerFoundException e) {
+	protected ResponseEntity<ErrorApiResponse> handleNoHandlerFoundException(final NoHandlerFoundException e) {
 		ErrorCode errorCode = ErrorCode.URL_NOT_FOUND;
 		return respondWithError(errorCode);
 	}
 
 	// 지원하지 않는 http method 사용시
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException e) {
+	protected ResponseEntity<ErrorApiResponse> handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException e) {
 		ErrorCode errorCode = ErrorCode.URL_NOT_FOUND;
 		return respondWithError(errorCode);
 	}
 
 	// 적절하지 않은 요청 - type mismatch
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException e) {
+	protected ResponseEntity<ErrorApiResponse> handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException e) {
 		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
 		return respondWithError(errorCode);
 	}
 
 	// 적절하지 않은 요청 - body 가 없을 때
 	@ExceptionHandler(HttpMessageNotReadableException.class)
-	protected ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(final HttpMessageNotReadableException e) {
+	protected ResponseEntity<ErrorApiResponse> handleHttpMessageNotReadableException(final HttpMessageNotReadableException e) {
 		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
 		return respondWithError(errorCode);
 	}
 
 	// 적절하지 않은 요청 - Request body mismatch
 	@ExceptionHandler(MethodArgumentNotValidException.class)
-	protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException (final MethodArgumentNotValidException e) {
+	protected ResponseEntity<ErrorApiResponse> handleMethodArgumentNotValidException (final MethodArgumentNotValidException e) {
 		ErrorCode errorCode  = ErrorCode.BAD_REQUEST;
 		return respondWithError(errorCode);
 	}
 
 	// 비즈니스 로직 상에서 에러 발생 시.
 	@ExceptionHandler(BusinessException.class)
-	protected ResponseEntity<ErrorResponse> handleBusinessException(final BusinessException e) {
+	protected ResponseEntity<ErrorApiResponse> handleBusinessException(final BusinessException e) {
 		ErrorCode errorCode = e.getErrorCode();
 		return respondWithError(errorCode);
 	}
 	
 	// 그 외의 exception 발생시.
 	@ExceptionHandler(Exception.class)
-	protected ResponseEntity<ErrorResponse> handleException(final Exception e) {
+	protected ResponseEntity<ErrorApiResponse> handleException(final Exception e) {
 		ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
 		e.printStackTrace(System.out);
 		return respondWithError(errorCode);
 	}
 
 	// Helper method
-	private ResponseEntity<ErrorResponse> respondWithError(ErrorCode errorCode) {
-		ErrorResponse response = ErrorResponse.of(errorCode);
+	private ResponseEntity<ErrorApiResponse> respondWithError(ErrorCode errorCode) {
+		ErrorApiResponse response = ErrorApiResponse.of(errorCode);
 		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
 	}
 }

@@ -7,8 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import io.omnipede.springbootrestapiboilerplate.exception.BusinessException;
-import io.omnipede.springbootrestapiboilerplate.exception.ErrorCode;
+import io.omnipede.springbootrestapiboilerplate.global.exception.BusinessException;
+import io.omnipede.springbootrestapiboilerplate.global.exception.ErrorCode;
 
 
 /**
