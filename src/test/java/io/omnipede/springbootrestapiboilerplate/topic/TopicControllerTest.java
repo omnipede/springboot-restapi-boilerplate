@@ -206,27 +206,6 @@ class TopicControllerTest {
                 );
     }
 
-    /**
-     * API call 시 에러가 발생할 경우 에러를 적절히 처리하는지 테스트
-     * @throws Exception
-     * TODO: 에러 테스트 클래스로 옮기기
-     */
-    @Test
-    public void exceptions() throws Exception {
-        // Bad request - No arguments
-        mockMvc.perform(post("/topics"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(403));
-        // Bad request - invalid arguments
-        mockMvc.perform(post("/topics").contentType(MediaType.APPLICATION_JSON).content("{\n" + "\"name\": \"java topic\",\n" + "\"description\": \"Simple description\"\n" + "}"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(403));
-        // Not found url
-        mockMvc.perform(get("/wrong/uri"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(404));
-    }
-
     // Helper method
     private ResultActions mockExpectOk(MockHttpServletRequestBuilder builder, String content) throws Exception {
         return mockExpectOk(builder.content(content));

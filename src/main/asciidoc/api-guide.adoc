@@ -29,7 +29,7 @@ use of HTTP verbs.
 | 테스트
 
 | `DELETE`
-| 테스트 aaa bbbb cccc dddd
+| 테스트
 |===
 
 [[overview-http-status-codes]]
