@@ -1,17 +1,12 @@
 package io.omnipede.springbootrestapiboilerplate.global.response;
 
 import io.omnipede.springbootrestapiboilerplate.global.exception.ErrorCode;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 
 /**
  * API 에러 response 에 사용할 클래스.
  */
-@ApiModel(value="Api error response", description="에러 발생 응답")
 public class ErrorApiResponse extends ApiResponse {
-	@ApiModelProperty(value="에러코드", allowEmptyValue=false)
 	private String code;
-	@ApiModelProperty(value="에러 메시지", allowEmptyValue=false)
 	private String message;
 
 	public ErrorApiResponse() {

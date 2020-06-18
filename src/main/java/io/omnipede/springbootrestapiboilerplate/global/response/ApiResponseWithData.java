@@ -1,8 +1,5 @@
 package io.omnipede.springbootrestapiboilerplate.global.response;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
 /**
  * Success (200) response 에 사용하는 클래스.
  * {
@@ -10,9 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
  *   "data": T
  * }
  */
-@ApiModel(value="Response with data", description="데이터를 포함한 응답")
 public class ApiResponseWithData<T> extends ApiResponse {
-	@ApiModelProperty(value="응답 데이터")
 	private T data;
 	
 	public ApiResponseWithData() {

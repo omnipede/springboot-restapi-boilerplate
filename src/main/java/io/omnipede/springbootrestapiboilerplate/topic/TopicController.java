@@ -2,7 +2,6 @@ package io.omnipede.springbootrestapiboilerplate.topic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import io.omnipede.springbootrestapiboilerplate.global.response.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import io.omnipede.springbootrestapiboilerplate.global.response.ApiResponseWithData;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
