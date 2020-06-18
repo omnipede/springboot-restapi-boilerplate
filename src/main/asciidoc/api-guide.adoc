@@ -1,0 +1,86 @@
+= RESTful Notes API Guide
+omnipede;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+[[overview]]
+== Overview
+
+[[overview-http-verbs]]
+=== HTTP verbs
+
+RESTful notes tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP verbs.
+
+|===
+| Verb | Usage
+
+| `GET`
+| 테스트
+
+| `POST`
+| 테스트
+
+| `PATCH`
+| 테스트
+
+| `DELETE`
+| 테스트 aaa bbbb cccc dddd
+|===
+
+[[overview-http-status-codes]]
+=== HTTP status codes
+
+RESTful notes tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| The request completed successfully
+
+| `201 Created`
+| A new resource has been created successfully. The resource's URI is available from the response's
+`Location` header
+
+| `204 No Content`
+| An update to an existing resource has been applied successfully
+
+| `400 Bad Request`
+| The request was malformed. The response body will include an error providing further information
+
+| `404 Not Found`
+| The requested resource did not exist
+|===
+
+== Topics
+
+=== Get all topics
+모든 토픽을 반환하는 API
+
+operation::get-all-topics[snippets='http-request,http-response,response-fields']
+
+=== Get topic
+ID가 일치하는 토픽을 반환하는 API
+
+operation::get-topic[snippets='http-request,path-parameters,http-response,response-fields']
+
+=== Add topic
+토픽을 추가하는 API
+
+operation::add-topic[snippets='http-request,request-fields,http-response,response-fields']
+
+=== Update topic
+토픽을 업데이트하는 API
+
+operation::update-topic[snippets='http-request,request-fields,http-response,response-fields']
+
+=== Delete topic
+토픽을 삭제하는 API
+
+operation::delete-topic[snippets='http-request,path-parameters,http-response,response-fields']

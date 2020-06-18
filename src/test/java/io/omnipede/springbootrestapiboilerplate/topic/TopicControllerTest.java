@@ -1,10 +1,16 @@
 package io.omnipede.springbootrestapiboilerplate.topic;
 
+import static io.omnipede.springbootrestapiboilerplate.utils.ApiDocumentUtils.getDocumentRequest;
+import static io.omnipede.springbootrestapiboilerplate.utils.ApiDocumentUtils.getDocumentResponse;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -14,14 +20,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import io.omnipede.springbootrestapiboilerplate.global.exception.BusinessException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -38,6 +46,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
+@AutoConfigureRestDocs
 class TopicControllerTest {
 
     @Autowired
@@ -46,12 +55,11 @@ class TopicControllerTest {
     @Autowired
     private TopicService topicService;
 
-
     // Topic을 json으로 바꿀 때 사용하는 mapper
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
-    public void before() throws Exception {
+    public void setup() {
         // 테스트용 topic entity 두 개 추가.
         topicService.addTopic(new Topic("java", "java topic", "java description"));
         topicService.addTopic(new Topic("spring", "spring topic", "spring description"));
@@ -65,13 +73,21 @@ class TopicControllerTest {
     public void getAllTopics () throws Exception {
         // URI endpoint of API
         final String endPoint = "/topics";
-        // API call
-        mockHelper(get(endPoint))
+        mockExpectOk(get(endPoint))
                 .andExpect(jsonPath("$.data").exists())
                 .andExpect(jsonPath("$.data").isArray())
-                // data 필드에 topic 두 개가 들어있어야 함.
-                .andExpect(jsonPath("$.data[0]").exists())
-                .andExpect(jsonPath("$.data[1]").exists());
+                // Rest docs
+                .andDo(document("get-all-topics",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        responseFields(
+                                fieldWithPath("status").description("Http status"),
+                                fieldWithPath("data").type(JsonFieldType.ARRAY).description("전체 topic 리스트"),
+                                fieldWithPath("data[].id").description("Topic id"),
+                                fieldWithPath("data[].name").description("Topic name"),
+                                fieldWithPath("data[].description").description("Topic description")
+                        )
+                ));
     }
 
     /**
@@ -81,11 +97,26 @@ class TopicControllerTest {
     @Test
     public void getTopic () throws Exception {
         // URI endpoint of API
-        final String endPoint = "/topics/java";
+        final String endPoint = "/topics/{id}";
         // API 호출.
-        mockHelper(get(endPoint))
+        mockExpectOk(RestDocumentationRequestBuilders.get(endPoint, "java"))
                 .andExpect(jsonPath("$.data").exists())
-                .andExpect(jsonPath("$.data").isMap());
+                .andExpect(jsonPath("$.data").isMap())
+                // Rest docs
+                .andDo(document("get-topic",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("id").description("찾고자 하는 토픽의 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").description("Http status"),
+                                fieldWithPath("data").description("검색한 topic"),
+                                fieldWithPath("data.id").description("Topic id"),
+                                fieldWithPath("data.name").description("Topic name"),
+                                fieldWithPath("data.description").description("Topic description")
+                        )
+                ));
     }
 
     /**
@@ -102,14 +133,20 @@ class TopicControllerTest {
         String stringFormatOfTopicToAdd = objectMapper.writeValueAsString(topicToAdd);
 
         // API 호출
-        mockHelper(post(endPoint), stringFormatOfTopicToAdd);
-
-        // 새로 추가된 topic 을 topic service에서 받아온다.
-        Topic addedTopic = topicService.getTopics(topicToAdd.getId());
-        String stringFormatOfAddedTopic = objectMapper.writeValueAsString(addedTopic);
-
-        // 새로 추가하려고 했던 topic과 새로 추가할 topic이 일치하는지 확인.
-        assertEquals(stringFormatOfAddedTopic, stringFormatOfTopicToAdd);
+        mockExpectOk(post(endPoint), stringFormatOfTopicToAdd)
+                // Rest docs
+                .andDo(document("add-topic",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestFields(
+                                fieldWithPath("id").description("토픽 아이디"),
+                                fieldWithPath("name").description("토픽 이름"),
+                                fieldWithPath("description").description("토픽 설명")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").description("Http status")
+                        )
+                ));
     }
 
     /**
@@ -129,16 +166,20 @@ class TopicControllerTest {
         String stringFormatOfTopicToUpdate = objectMapper.writeValueAsString(topicToUpdate);
 
         // API 호출
-        mockHelper(put(endPoint), stringFormatOfTopicToUpdate);
-
-        // 업데이트된 topic을 불러옴.
-        Topic updatedTopic = topicService.getTopics(topicToUpdate.getId());
-
-        // 업데이트 되기 전의 topic과 업데이트 된 후의 topic을 비교.
-        // Id는 같고, name과 description은 업데이트 했으므로 달라야 한다.
-        assertEquals(oldTopic.getId(), updatedTopic.getId());
-        assertThat(oldTopic.getName(), is(not(updatedTopic.getName())));
-        assertThat(oldTopic.getDescription(), is(not(updatedTopic.getDescription())));
+        mockExpectOk(put(endPoint), stringFormatOfTopicToUpdate)
+                // Rest docs
+                .andDo(document("update-topic",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        requestFields(
+                                fieldWithPath("id").description("토픽 아이디"),
+                                fieldWithPath("name").description("토픽 이름"),
+                                fieldWithPath("description").description("토픽 설명")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").description("Http status")
+                        )
+                ));
     }
 
     /**
@@ -148,55 +189,51 @@ class TopicControllerTest {
     @Test
     public void deleteTopic () throws Exception {
         // URI endpoint of api
-        final String endPoint = "/topics/java";
-
-        // 삭제 되기 전 topic을 저장.
-        Topic topicBeforeDeletion = topicService.getTopics("java");
+        final String endPoint = "/topics/{id}";
 
         // API 호출
-        mockHelper(delete(endPoint));
-
-        // topic이 삭제되었으므로 해당하는 topic을 반환할 수 없음.
-        try {
-            topicService.getTopics(topicBeforeDeletion.getId());
-            // Exception 발생 안하면 테스트 실패.
-            assertTrue(false);
-        } catch (BusinessException e) {
-            // Business exception 발생 시 테스트 성공.
-            assertTrue(true);
-        }
+        mockExpectOk(RestDocumentationRequestBuilders.delete(endPoint, "java"))
+                // Rest docs
+                .andDo(document("delete-topic",
+                        getDocumentRequest(),
+                        getDocumentResponse(),
+                        pathParameters(
+                                parameterWithName("id").description("토픽 아이디")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").description("Http status")
+                        ))
+                );
     }
 
     /**
      * API call 시 에러가 발생할 경우 에러를 적절히 처리하는지 테스트
      * @throws Exception
+     * TODO: 에러 테스트 클래스로 옮기기
      */
     @Test
     public void exceptions() throws Exception {
-        // Not found url
-        mockMvc.perform(get("/wrong/uri"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(404))
-                .andDo(print());
         // Bad request - No arguments
         mockMvc.perform(post("/topics"))
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(403))
-                .andDo(print());
+                .andExpect(jsonPath("$.status").value(403));
         // Bad request - invalid arguments
         mockMvc.perform(post("/topics").contentType(MediaType.APPLICATION_JSON).content("{\n" + "\"name\": \"java topic\",\n" + "\"description\": \"Simple description\"\n" + "}"))
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(403))
-                .andDo(print());
+                .andExpect(jsonPath("$.status").value(403));
+        // Not found url
+        mockMvc.perform(get("/wrong/uri"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.status").value(404));
     }
 
     // Helper method
-    private ResultActions mockHelper(MockHttpServletRequestBuilder builder, String content) throws Exception {
-        return mockHelper(builder.content(content));
+    private ResultActions mockExpectOk(MockHttpServletRequestBuilder builder, String content) throws Exception {
+        return mockExpectOk(builder.content(content));
     }
 
     // Helper method
-    private ResultActions mockHelper(MockHttpServletRequestBuilder builder) throws Exception {
+    private ResultActions mockExpectOk(MockHttpServletRequestBuilder builder) throws Exception {
         return mockMvc.perform(builder.contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

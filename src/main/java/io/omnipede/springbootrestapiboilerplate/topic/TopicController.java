@@ -16,11 +16,6 @@ import javax.validation.Valid;
 @RestController
 public class TopicController {
 
-	// TODO: @RequestBody 타입 체크 고안하기 <-
-	// TODO: logging 추가,
-	// TODO: request ~ response filter 추가
-	// TODO: clean architecture 구현하기
-
 	@Autowired
 	private TopicService topicService;
 
