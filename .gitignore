@@ -32,3 +32,4 @@ build/
 
 ### LOG ###
 derby.log
+logs/
