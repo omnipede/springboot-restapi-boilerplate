@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,13 +48,12 @@ class GlobalExceptionHandlerTest {
     }
 
     /**
-     * Bad request - argument not exists
-     * @throws Exception
+     * 지원하지 않는 http method 요청시 ex) patch
      */
     @Test
-    void handleHttpMessageNotReadableException() throws Exception {
-        mockMvc.perform(post("/topics").contentType(MediaType.APPLICATION_JSON).content("{\n" + "\"name\": \"java topic\",\n" + "\"description\": \"Simple description\"\n" + "}"))
+    void handleHttpRequestMethodNotSupportedException() throws Exception {
+        mockMvc.perform(patch("/topics"))
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(403));
+                .andExpect(jsonPath("$.status").value(404));
     }
 }

@@ -19,49 +19,57 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-	// Not found url handler
+	/**
+	 * API end point가 존재하지 않는 경우
+	 */
 	@ExceptionHandler(NoHandlerFoundException.class)
 	protected ResponseEntity<ErrorApiResponse> handleNoHandlerFoundException(final NoHandlerFoundException e) {
 		ErrorCode errorCode = ErrorCode.URL_NOT_FOUND;
 		return respondWithError(errorCode);
 	}
 
-	// 지원하지 않는 http method 사용시
+	/**
+	 * 지원하지 않는 http method 요청시 발생
+	 */
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	protected ResponseEntity<ErrorApiResponse> handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException e) {
 		ErrorCode errorCode = ErrorCode.URL_NOT_FOUND;
 		return respondWithError(errorCode);
 	}
 
-	// 적절하지 않은 요청 - type mismatch
+	/**
+     * enum type 일치하지 않아 binding 못할 경우 발생
+     * 주로 @RequestParam enum으로 binding 못했을 경우 발생
+     */
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	protected ResponseEntity<ErrorApiResponse> handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException e) {
 		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
 		return respondWithError(errorCode);
 	}
 
-	// 적절하지 않은 요청 - body 가 없을 때
-	@ExceptionHandler(HttpMessageNotReadableException.class)
-	protected ResponseEntity<ErrorApiResponse> handleHttpMessageNotReadableException(final HttpMessageNotReadableException e) {
-		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
-		return respondWithError(errorCode);
-	}
-
-	// 적절하지 않은 요청 - Request body mismatch
+	/**
+	 *  javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다.
+	 *  HttpMessageConverter 에서 등록한 HttpMessageConverter binding 못할경우 발생
+	 *  주로 @RequestBody, @RequestPart 어노테이션에서 발생
+	 */
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<ErrorApiResponse> handleMethodArgumentNotValidException (final MethodArgumentNotValidException e) {
 		ErrorCode errorCode  = ErrorCode.BAD_REQUEST;
 		return respondWithError(errorCode);
 	}
 
-	// 비즈니스 로직 상에서 에러 발생 시.
+	/**
+	 * 비지니스 로직 상에서 에러가 발생할 경우
+	 */
 	@ExceptionHandler(BusinessException.class)
 	protected ResponseEntity<ErrorApiResponse> handleBusinessException(final BusinessException e) {
 		ErrorCode errorCode = e.getErrorCode();
 		return respondWithError(errorCode);
 	}
-	
-	// 그 외의 exception 발생시.
+
+	/**
+	 * 그 외 서버 에러 발생 시
+	 */
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<ErrorApiResponse> handleException(final Exception e) {
 		ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
