@@ -17,6 +17,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * 모든 request와 response 를 logging 하는 필터
  * @see "https://stackoverflow.com/questions/33744875/spring-boot-how-to-log-all-requests-and-responses-with-exceptions-in-single-pl"
+ * @see "https://stackoverflow.com/questions/33744875/spring-boot-how-to-log-all-requests-and-responses-with-exceptions-in-single-pl"
  */
 @Component
 public class RequestResponseLoggingFilter extends OncePerRequestFilter {
