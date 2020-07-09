@@ -44,10 +44,8 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
 
         logger.info("=> " + reqInfo);
 
-        /**
-         * Request body의 Inputstream을 읽으면 유실되는 문제를 해결하기 위해 다음과 같이 wrapping 한다.
-         * @see "https://stackoverflow.com/questions/33744875/spring-boot-how-to-log-all-requests-and-responses-with-exceptions-in-single-pl"
-         */
+        // Request body의 Inputstream을 읽으면 유실되는 문제를 해결하기 위해 다음과 같이 wrapping 한다.
+        // @see "https://stackoverflow.com/questions/33744875/spring-boot-how-to-log-all-requests-and-responses-with-exceptions-in-single-pl"
         ContentCachingRequestWrapper wrappedRequest = new ContentCachingRequestWrapper(request);
         ContentCachingResponseWrapper wrappedResponse = new ContentCachingResponseWrapper(response);
 
@@ -77,15 +75,14 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
     }
 
     /**
-     * Byte array를 문자열로 바꿔서 반환하는 메소드
+     * Byte array 를 문자열로 바꿔서 반환하는 메소드
      * @param buf 변환할 byte array
      * @param maxLength 최대 길이
      * @param charset UTF-8 등 인코딩 방법
-     * @return
+     * @return byte array 를 문자열로 바꾼 결과
      */
     private String getContentAsString(byte[] buf, int maxLength, String charset) {
         if(buf == null || buf.length == 0) return "";
-
         String contentString = null;
         int length = Math.min(buf.length, maxLength);
         try {
