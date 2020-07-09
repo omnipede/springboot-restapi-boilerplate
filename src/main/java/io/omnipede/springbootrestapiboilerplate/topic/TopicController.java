@@ -15,6 +15,9 @@ public class TopicController {
 	@Autowired
 	private TopicService topicService;
 
+	/**
+	 * 모든 토픽을 반환하는 api
+	 */
 	@RequestMapping(method=RequestMethod.GET, value="/topics", headers="accept=application/json")
 	public @ResponseBody
 	JsonResponseWithData<List<TopicDTO>> getAllTopics() {
@@ -25,6 +28,10 @@ public class TopicController {
 		return new JsonResponseWithData<>(topicDTOs);
 	}
 
+	/**
+	 * 특정 토픽을 검색해서 반환하는 api
+	 * @param id Topic id
+	 */
 	@RequestMapping(method=RequestMethod.GET, value="/topics/{id}", headers="accept=application/json")
 	public @ResponseBody
 	JsonResponseWithData<TopicDTO> getTopic(@PathVariable String id) {
@@ -33,6 +40,10 @@ public class TopicController {
 		return new JsonResponseWithData<>(new TopicDTO(topic.getId(), topic.getName(), topic.getDescription()));
 	}
 
+	/**
+	 * 토픽을 추가하는 api
+	 * @param dto 추가할 토픽 dto
+	 */
 	@RequestMapping(method=RequestMethod.POST, value="/topics", headers="accept=application/json")
 	public @ResponseBody
 	JsonResponse addTopic(@RequestBody @Valid TopicDTO dto) {
@@ -40,6 +51,10 @@ public class TopicController {
 		return new JsonResponse();
 	}
 
+	/**
+	 * 토픽을 업데이트하는 api
+	 * @param dto 업데이트할 토픽 dto
+	 */
 	@RequestMapping(method=RequestMethod.PUT, value="/topics", headers="accept=application/json")
 	public @ResponseBody
 	JsonResponse updateTopic(@RequestBody @Valid TopicDTO dto) {
@@ -47,6 +62,10 @@ public class TopicController {
 		return new JsonResponse();
 	}
 
+	/**
+	 * 토픽을 삭제하는 api
+	 * @param id 삭제할 토픽 id
+	 */
 	@RequestMapping(method=RequestMethod.DELETE, value="/topics/{id}", headers="accept=application/json")
 	public @ResponseBody
 	JsonResponse deleteTopic(@PathVariable String id) {

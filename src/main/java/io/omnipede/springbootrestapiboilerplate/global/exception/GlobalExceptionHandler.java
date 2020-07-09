@@ -10,14 +10,14 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
- * API 상에서 발생하는 모든 exception을 처리하는 클래스.
+ * API 상에서 발생하는 모든 exception 을 처리하는 클래스.
  * @see "https://cheese10yun.github.io/spring-guide-exception/#null"
  */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
 	/**
-	 * API end point가 존재하지 않는 경우
+	 * API end point 가 존재하지 않는 경우
 	 */
 	@ExceptionHandler(NoHandlerFoundException.class)
 	protected ResponseEntity<ErrorJsonResponse> handleNoHandlerFoundException(final NoHandlerFoundException e) {
@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
 
 	/**
      * enum type 일치하지 않아 binding 못할 경우 발생
-     * 주로 @RequestParam enum으로 binding 못했을 경우 발생
+     * 주로 @RequestParam enum 으로 binding 못했을 경우 발생
      */
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	protected ResponseEntity<ErrorJsonResponse> handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException e) {
