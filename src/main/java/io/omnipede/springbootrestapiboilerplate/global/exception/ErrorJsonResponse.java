@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.ArrayList;
@@ -40,7 +39,6 @@ public class ErrorJsonResponse {
         this.status = errorCode.getStatus();
         this.code = errorCode.getCode();
         this.message = errorCode.getMessage();
-        this.errors = new ArrayList<>();
     }
 
     /**
@@ -52,17 +50,23 @@ public class ErrorJsonResponse {
         return new ErrorJsonResponse(errorCode);
     }
 
-    public static ErrorJsonResponse of(ErrorCode errorCode, final List<FieldError> errors) {
-        return new ErrorJsonResponse(errorCode, errors);
+    public static ErrorJsonResponse of(ErrorCode errorCode, String specificReason) {
+        final List<FieldError> errors = FieldError.of("Specific reason", "", specificReason);
+        return of(errorCode, errors);
     }
 
     public static ErrorJsonResponse of(ErrorCode errorCode, final BindingResult bindingResult) {
-        return new ErrorJsonResponse(errorCode, FieldError.of(bindingResult));
+        final List<FieldError> errors = FieldError.of(bindingResult);
+        return of(errorCode, errors);
     }
 
     public static ErrorJsonResponse of(ErrorCode errorCode, MethodArgumentTypeMismatchException e) {
         final String value = e.getValue() == null ? "" : e.getValue().toString();
         final List<FieldError> errors = FieldError.of(e.getName(), value, e.getErrorCode());
+        return of(errorCode, errors);
+    }
+
+    public static ErrorJsonResponse of(ErrorCode errorCode, final List<FieldError> errors) {
         return new ErrorJsonResponse(errorCode, errors);
     }
 
@@ -80,12 +84,18 @@ public class ErrorJsonResponse {
             this.reason = reason;
         }
 
+        /**
+         * Change field error to list of field errors
+         */
         public static List<FieldError> of (final String field, final String value, final String reason) {
             List<FieldError> fieldErrors = new ArrayList<>();
             fieldErrors.add(new FieldError(field, value, reason));
             return fieldErrors;
         }
 
+        /**
+         * Change field errors in binding result to custom field errors
+         */
         public static List<FieldError> of (final BindingResult bindingResult) {
             final List<org.springframework.validation.FieldError> fieldErrors = bindingResult.getFieldErrors();
             return fieldErrors.stream()

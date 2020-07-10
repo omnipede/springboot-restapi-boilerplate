@@ -46,7 +46,7 @@ public class TopicController {
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/topics/search", headers="accept=application/json")
 	public @ResponseBody
-	JsonResponseWithData<TopicDTO> getTopicById(@RequestParam String id) {
+	JsonResponseWithData<TopicDTO> getTopicById(@RequestParam("id") String id) {
 		// Topic 을 하나 찾아서 반환
 		Topic topic = topicService.getTopics(id);
 		return new JsonResponseWithData<>(new TopicDTO(topic.getId(), topic.getName(), topic.getDescription()));
