@@ -28,7 +28,6 @@ class GlobalExceptionHandlerTest {
 
     /**
      * Url not found error
-     * @throws Exception
      */
     @Test
     void handleNoHandlerFoundException() throws Exception {
@@ -39,7 +38,6 @@ class GlobalExceptionHandlerTest {
 
     /**
      * Bad request - invalid request body argument
-     * @throws Exception
      */
     @Test
     void handleMethodArgumentNotValidException() throws Exception {

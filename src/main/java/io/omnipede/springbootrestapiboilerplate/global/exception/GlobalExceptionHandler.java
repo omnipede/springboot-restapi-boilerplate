@@ -53,8 +53,16 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(MissingServletRequestParameterException.class)
 	protected ResponseEntity<ErrorJsonResponse> handleMissingServletRequestParameterException (final MissingServletRequestParameterException e, final HttpServletRequest request) {
 		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
+		// Get query parameters
 		String query = request.getQueryString() == null ? "" : request.getQueryString();
-		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, ErrorJsonResponse.FieldError.of(e.getParameterName(), query, e.getMessage()));
+		final ErrorJsonResponse response = ErrorJsonResponse.of(
+				errorCode,
+				ErrorJsonResponse.FieldError.of(
+						e.getParameterName(), // Set what is required
+						query, // Set original query parameters
+						e.getMessage() // Set specific message
+				)
+		);
 		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
 	}
 
