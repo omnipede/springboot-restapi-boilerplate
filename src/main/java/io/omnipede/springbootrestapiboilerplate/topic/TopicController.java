@@ -41,6 +41,18 @@ public class TopicController {
 	}
 
 	/**
+	 * 특정 토픽을 검색해서 반환하는 api
+	 * @param id Topic id
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/topics/search", headers="accept=application/json")
+	public @ResponseBody
+	JsonResponseWithData<TopicDTO> getTopicById(@RequestParam String id) {
+		// Topic 을 하나 찾아서 반환
+		Topic topic = topicService.getTopics(id);
+		return new JsonResponseWithData<>(new TopicDTO(topic.getId(), topic.getName(), topic.getDescription()));
+	}
+
+	/**
 	 * 토픽을 추가하는 api
 	 * @param dto 추가할 토픽 dto
 	 */

@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * TODO: @RequestBody 자료형 체크 고안하기 <-
- * TODO: logging 추가, -> AOP 사용하기
+ * TODO: @RequestBody json 자료형 확인하는 방법 고안하기
  * TODO: properties 관리방법 고안하기
- * TODO: error response 에 errors 필드 추가하기
+ * TODO: error response 에 errors 필드 추가하기 <--
+ * TODO: Lombok 적용하기
  * @see "https://cheese10yun.github.io/ConstraintValidator/"
  * TODO: DB 추가하기 - @Transactional 어노테이션 사용하기
  * TODO: clean architecture 구현하기
