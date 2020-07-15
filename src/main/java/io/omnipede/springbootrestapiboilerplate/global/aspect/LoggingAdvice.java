@@ -23,7 +23,7 @@ public class LoggingAdvice {
     private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Pointcut("execution(* io.omnipede.springbootrestapiboilerplate.topic.*.*(..))")
+    @Pointcut("execution(* io.omnipede.springbootrestapiboilerplate.domain.topic.*.*(..))")
     public void topicPointcut() {}
 
     @Pointcut("execution(* io.omnipede.springbootrestapiboilerplate.global.exception.*.*(..))")
