@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * TODO: @RequestBody json 자료형 확인하는 방법 고안하기
  * TODO: properties 관리방법 고안하기
- * TODO: DB 추가하기 - @Transactional 어노테이션 사용하기 <-- "https://spring.io/guides/gs/accessing-data-mysql/"
  * TODO: 조금 더 복잡한 domain 구현해보기 <--"https://ict-nroo.tistory.com/127"
  * TODO: 테스트 케이스 추가하기
  * TODO: 필요없는 dependency 삭제하기, pom.xml jdk 버전 확인하기
