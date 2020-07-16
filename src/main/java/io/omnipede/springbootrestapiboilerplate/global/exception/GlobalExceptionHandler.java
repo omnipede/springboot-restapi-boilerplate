@@ -72,7 +72,7 @@ public class GlobalExceptionHandler {
 	 *     "name": "foo bar",  <-- 마지막에 ',' 로 끝남
 	 * }
 	 */
-	@ExceptionHandler(HttpMessageNotReadableException.class)
+	// @ExceptionHandler(HttpMessageNotReadableException.class)
 	protected ResponseEntity<ErrorJsonResponse> handleHttpMessageNotReadableException (final HttpMessageNotReadableException e) {
 		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, "Can't read http message ... Please check your request format.");

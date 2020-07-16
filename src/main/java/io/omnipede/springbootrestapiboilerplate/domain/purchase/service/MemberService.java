@@ -2,6 +2,8 @@ package io.omnipede.springbootrestapiboilerplate.domain.purchase.service;
 
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Member;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.repository.MemberRepository;
+import io.omnipede.springbootrestapiboilerplate.global.exception.BusinessException;
+import io.omnipede.springbootrestapiboilerplate.global.exception.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +27,8 @@ public class MemberService {
      * Member 를 반환하는 메소드
      * @param id Member id
      * @return Member
-     * @throws Exception 해당하는 멤버가 없을 경우 에러 던짐
      */
-    public Member findMember(Long id) throws Exception {
-        return memberRepository.findById(id).orElseThrow(() -> new Exception("Data not found"));
+    public Member findMember(Long id) {
+        return memberRepository.findById(id).orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_EXISTS));
     }
 }
