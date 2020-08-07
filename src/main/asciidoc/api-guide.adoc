@@ -91,3 +91,15 @@ operation::delete-topic[snippets='http-request,path-parameters,http-response,res
 회원가입 API
 
 operation::member-signin[snippets='http-request,request-fields,http-response,response-fields']
+
+=== Profile
+회원 정보 보기
+
+operation::member-profile[snippets='http-request,path-parameters,http-response,response-fields']
+
+== 상품 관리
+
+=== Add product
+상품 추가 API
+
+operation::product-add[snippets='http-request,request-fields,http-response,response-fields']

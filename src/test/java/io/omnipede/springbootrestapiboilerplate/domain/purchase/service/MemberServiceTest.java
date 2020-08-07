@@ -2,13 +2,16 @@ package io.omnipede.springbootrestapiboilerplate.domain.purchase.service;
 
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Member;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.repository.MemberRepository;
+import io.omnipede.springbootrestapiboilerplate.global.exception.BusinessException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 class MemberServiceTest {
 
     @Autowired
@@ -28,13 +31,10 @@ class MemberServiceTest {
     }
 
     @Test
-    public void findMember() {
-        try {
-            // 존재하지 않는 멤버를 찾는 경우
-            Member member = memberService.findMember(20000L);
-            fail("Exception should be thrown");
-        } catch (Exception exception) {
-            assertTrue(true);
-        }
+    public void findMember_NotFound() {
+        // 없는 멤버를 찾을 경우, 에러 발생
+        assertThrows(BusinessException.class, () -> {
+           memberService.findMember(20000L);
+        });
     }
 }

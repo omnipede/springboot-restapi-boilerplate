@@ -39,5 +39,5 @@ public class MemberProduct {
 
     @Column(name="updated_at")
     @UpdateTimestamp
-    private Date updated_at;
+    private Date updatedAt;
 }

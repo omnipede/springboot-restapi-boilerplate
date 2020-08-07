@@ -23,16 +23,24 @@ public class LoggingAdvice {
     private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
+    @Pointcut("execution(* io.omnipede.springbootrestapiboilerplate.domain.purchase.*.*.*(..))")
+    public void purchasePointcut() {}
+
     @Pointcut("execution(* io.omnipede.springbootrestapiboilerplate.domain.topic.*.*(..))")
     public void topicPointcut() {}
 
+    // Pointcut of all methods inside domain folder
+    @Pointcut("execution(* io.omnipede.springbootrestapiboilerplate.domain..*.*(..))")
+    public void domainPointcut() {}
+
+    // Pointcut of all methods inside globa/exception folder
     @Pointcut("execution(* io.omnipede.springbootrestapiboilerplate.global.exception.*.*(..))")
     public void globalExceptionHandler() {}
 
     /**
      * Pointcut 여러개를 합치려면 다음과 같이 코딩한다.
      */
-    @Pointcut("topicPointcut() || globalExceptionHandler()")
+    @Pointcut("purchasePointcut() || topicPointcut()")
     public void allPointcuts() {}
 
     /**
@@ -66,7 +74,7 @@ public class LoggingAdvice {
     /**
      * Class name, method name, parameter 를 debug 레벨로 로깅
      */
-    @Around("topicPointcut()")
+    // @Around("domainPointcut()")
     public Object domainAdvice(ProceedingJoinPoint pjp) throws Throwable {
         String className = pjp.getSignature().getDeclaringTypeName();
         String methodName = pjp.getSignature().getName();

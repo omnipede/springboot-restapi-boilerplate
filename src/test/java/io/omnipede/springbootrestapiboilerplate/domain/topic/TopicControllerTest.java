@@ -30,6 +30,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * MockMvc 를 이용한 topic api controller 테스트
@@ -40,6 +41,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
+@Transactional
 class TopicControllerTest {
 
     @Autowired
