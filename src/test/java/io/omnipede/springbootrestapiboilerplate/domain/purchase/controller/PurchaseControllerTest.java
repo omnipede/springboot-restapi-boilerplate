@@ -1,12 +1,8 @@
 package io.omnipede.springbootrestapiboilerplate.domain.purchase.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.dto.AddProduct;
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.dto.PurchaseDTO;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Member;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.repository.MemberRepository;
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.service.MemberService;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
 @Transactional
-@Slf4j
 class PurchaseControllerTest {
 
     private static final Logger logger = LoggerFactory.getLogger(PurchaseControllerTest.class);

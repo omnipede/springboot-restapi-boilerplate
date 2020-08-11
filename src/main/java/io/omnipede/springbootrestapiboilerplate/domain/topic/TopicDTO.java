@@ -1,6 +1,7 @@
 package io.omnipede.springbootrestapiboilerplate.domain.topic;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.*;
@@ -12,6 +13,7 @@ import javax.validation.constraints.*;
  */
 @Getter
 @Setter
+@NoArgsConstructor
 public class TopicDTO {
     @NotEmpty(message = "Topic id is required")
     private String id;
