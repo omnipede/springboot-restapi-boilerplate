@@ -1,9 +1,7 @@
 package io.omnipede.springbootrestapiboilerplate.global.aspect;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -11,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
-
-import java.util.Arrays;
 
 /**
  * Logging 용 aspect
@@ -33,7 +29,7 @@ public class LoggingAdvice {
     @Pointcut("execution(* io.omnipede.springbootrestapiboilerplate.domain..*.*(..))")
     public void domainPointcut() {}
 
-    // Pointcut of all methods inside globa/exception folder
+    // Pointcut of all methods inside global/exception folder
     @Pointcut("execution(* io.omnipede.springbootrestapiboilerplate.global.exception.*.*(..))")
     public void globalExceptionHandler() {}
 
@@ -45,6 +41,7 @@ public class LoggingAdvice {
 
     /**
      * Class name, method name 를 debug 레벨로 로깅
+     * 아직 완벽하지 않음 ... 디버그 할 때 잠시 사용할 것
      */
     @Around("globalExceptionHandler()")
     public Object globalAdvice(ProceedingJoinPoint pjp) throws Throwable {
@@ -73,8 +70,9 @@ public class LoggingAdvice {
 
     /**
      * Class name, method name, parameter 를 debug 레벨로 로깅
+     * 마찬가지로 아직 완벽하진 않음 ... 디버그 할 때 잠시 사용할 것
      */
-    // @Around("domainPointcut()")
+    @Around("domainPointcut()")
     public Object domainAdvice(ProceedingJoinPoint pjp) throws Throwable {
         String className = pjp.getSignature().getDeclaringTypeName();
         String methodName = pjp.getSignature().getName();
