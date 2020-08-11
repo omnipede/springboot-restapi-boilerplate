@@ -2,7 +2,6 @@ package io.omnipede.springbootrestapiboilerplate.domain.purchase.controller;
 
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.dto.PurchaseDTO;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Member;
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.MemberProduct;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Product;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.service.MemberService;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.service.ProductService;

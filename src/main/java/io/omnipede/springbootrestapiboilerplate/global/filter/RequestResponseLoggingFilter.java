@@ -1,8 +1,6 @@
 package io.omnipede.springbootrestapiboilerplate.global.filter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +34,6 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
         // 시간 측정 시작
         long startTime = System.currentTimeMillis();
         // Request body 의 input stream 을 읽으면 input stream 이 유실되는 문제를 해결하기 위해 다음과 같이 wrapping 한다.
-        // @see "https://stackoverflow.com/questions/33744875/spring-boot-how-to-log-all-requests-and-responses-with-exceptions-in-single-pl"
         ContentCachingRequestWrapper wrappedRequest = new ContentCachingRequestWrapper(request);
         ContentCachingResponseWrapper wrappedResponse = new ContentCachingResponseWrapper(response);
 
