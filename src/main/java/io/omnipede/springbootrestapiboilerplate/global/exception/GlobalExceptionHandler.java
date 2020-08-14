@@ -1,7 +1,5 @@
 package io.omnipede.springbootrestapiboilerplate.global.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -14,7 +12,6 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * API 상에서 발생하는 모든 exception 을 처리하는 클래스.
@@ -72,7 +69,7 @@ public class GlobalExceptionHandler {
 	 *     "name": "foo bar",  <-- 마지막에 ',' 로 끝남
 	 * }
 	 */
-	// @ExceptionHandler(HttpMessageNotReadableException.class)
+	@ExceptionHandler(HttpMessageNotReadableException.class)
 	protected ResponseEntity<ErrorJsonResponse> handleHttpMessageNotReadableException (final HttpMessageNotReadableException e) {
 		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, "Can't read http message ... Please check your request format.");

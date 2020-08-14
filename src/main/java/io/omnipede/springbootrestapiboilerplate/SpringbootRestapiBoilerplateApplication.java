@@ -5,11 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * TODO: @RequestBody json 자료형 확인하는 방법 고안하기
- * TODO: properties 관리방법 고안하기
- * TODO: API 에러 테스트 케이스 작성
- * TODO: gradle 로 빌드도구 전환하기
  * TODO: admin 페이지 설정해보기 "https://velog.io/@max9106/Spring-Boot-%EC%8A%A4%ED%94%84%EB%A7%81-%EB%B6%80%ED%8A%B8-%EC%9A%B4%EC%98%81"
  * TODO: clean architecture 구현하기
+ * TODO: plugin 이 아니라 jar 로 실행하는 법 찾기
+ * TODO: topic domain 지우고 purchase domain 에러 테스트케이스 추가하기
  */
 @SpringBootApplication
 public class SpringbootRestapiBoilerplateApplication {

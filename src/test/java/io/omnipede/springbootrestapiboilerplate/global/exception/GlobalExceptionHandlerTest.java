@@ -38,7 +38,9 @@ class GlobalExceptionHandlerTest {
      */
     @Test
     void handleMethodArgumentNotValidException() throws Exception {
-        mockMvc.perform(post("/topics").contentType(MediaType.APPLICATION_JSON).content("{\n" + "\"name\": \"java topic\",\n" + "\"description\": \"Simple description\"\n" + "}"))
+        mockMvc.perform(post("/topics")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{\n" + "\"name\": \"java topic\",\n" + "\"description\": \"Simple description\"\n" + "}"))
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.status").value(403));
     }
