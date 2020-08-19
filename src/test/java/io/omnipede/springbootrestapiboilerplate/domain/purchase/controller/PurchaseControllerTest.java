@@ -19,6 +19,8 @@ import java.util.Map;
 
 import static io.omnipede.springbootrestapiboilerplate.utils.ApiDocumentUtils.getDocumentRequest;
 import static io.omnipede.springbootrestapiboilerplate.utils.ApiDocumentUtils.getDocumentResponse;
+import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
+import static org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -59,6 +61,7 @@ class PurchaseControllerTest {
 
         // Call api
         mockMvc.perform(post(endPoint)
+                    .header("test", "foo/bar")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(bodyString))
                 .andExpect(status().isOk())
@@ -67,6 +70,9 @@ class PurchaseControllerTest {
                 .andDo(document("purchase-add",
                         getDocumentRequest(),
                         getDocumentResponse(),
+                        requestHeaders(
+                                headerWithName("test").description("Header documentation test").optional()
+                        ),
                         requestFields(
                                 fieldWithPath("memberId").description("상품 구입할 멤버 아이디"),
                                 fieldWithPath("productName").description("구입하는 상품 이름")

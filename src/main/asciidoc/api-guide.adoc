@@ -1,3 +1,6 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
 = RESTful Notes API Guide
 omnipede;
 :doctype: book
@@ -7,99 +10,58 @@ omnipede;
 :toclevels: 2
 :sectlinks:
 
-[[overview]]
-== Overview
-
-[[overview-http-verbs]]
-=== HTTP verbs
-
-RESTful notes tries to adhere as closely as possible to standard HTTP and REST conventions in its
-use of HTTP verbs.
-
-|===
-| Verb | Usage
-
-| `GET`
-| 테스트
-
-| `POST`
-| 테스트
-
-| `PATCH`
-| 테스트
-
-| `DELETE`
-| 테스트
-|===
-
-[[overview-http-status-codes]]
-=== HTTP status codes
-
-RESTful notes tries to adhere as closely as possible to standard HTTP and REST conventions in its
-use of HTTP status codes.
-
-|===
-| Status code | Usage
-
-| `200 OK`
-| The request completed successfully
-
-| `201 Created`
-| A new resource has been created successfully. The resource's URI is available from the response's
-`Location` header
-
-| `204 No Content`
-| An update to an existing resource has been applied successfully
-
-| `400 Bad Request`
-| The request was malformed. The response body will include an error providing further information
-
-| `404 Not Found`
-| The requested resource did not exist
-|===
-
-== Topics
-
-=== Get all topics
-모든 토픽을 반환하는 API
-
-operation::get-all-topics[snippets='http-request,http-response,response-fields']
-
-=== Get topic
-ID가 일치하는 토픽을 반환하는 API
-
-operation::get-topic[snippets='http-request,path-parameters,http-response,response-fields']
-
-=== Add topic
-토픽을 추가하는 API
-
-operation::add-topic[snippets='http-request,request-fields,http-response,response-fields']
-
-=== Update topic
-토픽을 업데이트하는 API
-
-operation::update-topic[snippets='http-request,request-fields,http-response,response-fields']
-
-=== Delete topic
-토픽을 삭제하는 API
-
-operation::delete-topic[snippets='http-request,path-parameters,http-response,response-fields']
-
 == 사용자 관리
 
 === Sign in
 회원가입 API
 
-operation::member-signin[snippets='http-request,request-fields,http-response,response-fields']
+==== Http request
+include::{snippets}/member-signin/http-request.adoc[]
+
+==== Request body
+include::{snippets}/member-signin/request-body.adoc[]
+include::{snippets}/member-signin/request-fields.adoc[]
+
+==== Http response
+include::{snippets}/member-signin/http-response.adoc[]
+
+==== Response body
+include::{snippets}/member-signin/response-body.adoc[]
+include::{snippets}/member-signin/response-fields.adoc[]
 
 === Profile
-회원 정보 보기
+회원정보 API
 
-operation::member-profile[snippets='http-request,path-parameters,http-response,response-fields']
+==== Http request
+include::{snippets}/member-profile/http-request.adoc[]
 
-== 상품 관리
+==== Request body
+include::{snippets}/member-profile/request-body.adoc[]
 
-=== Add product
-상품 추가 API
+==== Http response
+include::{snippets}/member-profile/http-response.adoc[]
 
-operation::product-add[snippets='http-request,request-fields,http-response,response-fields']
+==== Response body
+include::{snippets}/member-profile/response-body.adoc[]
+include::{snippets}/member-profile/response-fields.adoc[]
+
+== 상품 구매 관련 API
+=== Purchase
+회원정보 API
+
+==== Http request
+include::{snippets}/purchase-add/http-request.adoc[]
+
+==== Request headers
+include::{snippets}/purchase-add/request-headers.adoc[]
+
+==== Request body
+include::{snippets}/purchase-add/request-body.adoc[]
+include::{snippets}/purchase-add/request-fields.adoc[]
+
+==== Http response
+include::{snippets}/purchase-add/http-response.adoc[]
+
+==== Response body
+include::{snippets}/purchase-add/response-body.adoc[]
+include::{snippets}/purchase-add/response-fields.adoc[]

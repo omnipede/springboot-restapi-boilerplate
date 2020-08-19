@@ -13,7 +13,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MemberSignin {
-    @NotEmpty(message = "Topic id is required")
+    @NotEmpty(message = "Member's username is required")
     @Pattern(regexp = "(^[가-힣a-zA-Z]*$)", message = "Wrong username format")
     private String username;
 }
