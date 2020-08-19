@@ -22,6 +22,10 @@ $ ./gradlew bootRun
 $ java -jar ./build/libs/*.jar
 ```
 
+## 로깅 설정
+[logback-spring.xml](./src/main/resources/logback-spring.xml) 을 수정하여  
+파일 로깅 / 콘솔 로깅 전환 가능 (기본값은 콘솔 로깅)
+
 ## API documentation
 Restdocs 라이브러리를 활용하여 API 문서를 자동화함.
 1. 서버 실행
