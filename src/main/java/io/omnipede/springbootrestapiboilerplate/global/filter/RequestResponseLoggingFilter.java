@@ -53,7 +53,9 @@ public class RequestResponseLoggingFilter extends OncePerRequestFilter {
         Map<String, Object> formattedResponse = formatResponse(wrappedResponse);
         reqResLoggingDTO.put("res", formattedResponse);
         // Log request & response
-        logger.info(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(reqResLoggingDTO));
+        if (!request.getRequestURI().startsWith("/actuator")) { // Actuator check 요청에 대해서는 로깅하지 않음
+            logger.info(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(reqResLoggingDTO));
+        }
         // (!) IMPORTANT: copy content of response back into original response
         wrappedResponse.copyBodyToResponse();
     }
