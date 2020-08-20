@@ -34,6 +34,21 @@ class GlobalExceptionHandlerTest {
     }
 
     /**
+     * JSON 형식이 올바르지 않을 경우
+     * @throws Exception
+     */
+    @Test
+    void handleHttpmessageNotReadableException () throws Exception {
+        String contentString = "{\"memberId\": \"12345\", }";
+        mockMvc.perform(post("/purchase")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(contentString))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.status").value(400))
+        .andExpect(jsonPath("$.code").value("C400"));
+    }
+
+    /**
      * 지원하지 않는 http method 요청시 ex) patch
      */
     @Test
