@@ -16,52 +16,46 @@ omnipede;
 회원가입 API
 
 ==== Http request
-include::{snippets}/member-signin/http-request.adoc[]
+include::{snippets}/member/signin/http-request.adoc[]
 
 ==== Request body
-include::{snippets}/member-signin/request-body.adoc[]
-include::{snippets}/member-signin/request-fields.adoc[]
+include::{snippets}/member/signin/request-body.adoc[]
+include::{snippets}/member/signin/request-fields.adoc[]
 
-==== Http response
-include::{snippets}/member-signin/http-response.adoc[]
-
-==== Response body
-include::{snippets}/member-signin/response-body.adoc[]
-include::{snippets}/member-signin/response-fields.adoc[]
+==== Response body (OK)
+include::{snippets}/member/signin/response-body.adoc[]
+include::{snippets}/member/signin/response-fields.adoc[]
 
 === Profile
 회원정보 API
 
 ==== Http request
-include::{snippets}/member-profile/http-request.adoc[]
+include::{snippets}/member/profile/http-request.adoc[]
 
 ==== Request body
-include::{snippets}/member-profile/request-body.adoc[]
+include::{snippets}/member/profile/request-body.adoc[]
 
-==== Http response
-include::{snippets}/member-profile/http-response.adoc[]
-
-==== Response body
-include::{snippets}/member-profile/response-body.adoc[]
-include::{snippets}/member-profile/response-fields.adoc[]
+==== Response body (OK)
+include::{snippets}/member/profile/response-body.adoc[]
+include::{snippets}/member/profile/response-fields.adoc[]
+==== Response body (Not found member)
+include::{snippets}/member/profile-NotFound/response-body.adoc[]
+include::{snippets}/member/profile-NotFound/response-fields.adoc[]
 
 == 상품 구매 관련 API
 === Purchase
 회원정보 API
 
 ==== Http request
-include::{snippets}/purchase-add/http-request.adoc[]
+include::{snippets}/purchase/add/http-request.adoc[]
 
 ==== Request headers
-include::{snippets}/purchase-add/request-headers.adoc[]
+include::{snippets}/purchase/add/request-headers.adoc[]
 
 ==== Request body
-include::{snippets}/purchase-add/request-body.adoc[]
-include::{snippets}/purchase-add/request-fields.adoc[]
+include::{snippets}/purchase/add/request-body.adoc[]
+include::{snippets}/purchase/add/request-fields.adoc[]
 
-==== Http response
-include::{snippets}/purchase-add/http-response.adoc[]
-
-==== Response body
-include::{snippets}/purchase-add/response-body.adoc[]
-include::{snippets}/purchase-add/response-fields.adoc[]
+==== Response body (OK)
+include::{snippets}/purchase/add/response-body.adoc[]
+include::{snippets}/purchase/add/response-fields.adoc[]

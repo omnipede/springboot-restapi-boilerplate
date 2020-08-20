@@ -67,7 +67,7 @@ class PurchaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value(200))
-                .andDo(document("purchase-add",
+                .andDo(document("purchase/add",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestHeaders(

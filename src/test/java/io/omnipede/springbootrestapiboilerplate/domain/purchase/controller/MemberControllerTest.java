@@ -76,7 +76,7 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.status").value(200))
-                .andDo(document("member-signin",
+                .andDo(document("member/signin",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         requestFields(
@@ -109,7 +109,7 @@ class MemberControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.purchased").isArray())
-                .andDo(document("member-profile",
+                .andDo(document("member/profile",
                         getDocumentRequest(),
                         getDocumentResponse(),
                         pathParameters(
@@ -139,7 +139,7 @@ class MemberControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().is(404))
         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-        .andDo(document("member-profile-NotFound",
+        .andDo(document("member/profile-NotFound",
                 getDocumentRequest(),
                 getDocumentResponse(),
                 pathParameters(

@@ -34,18 +34,6 @@ class GlobalExceptionHandlerTest {
     }
 
     /**
-     * Bad request - invalid request body argument
-     */
-    @Test
-    void handleMethodArgumentNotValidException() throws Exception {
-        mockMvc.perform(post("/topics")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content("{\n" + "\"name\": \"java topic\",\n" + "\"description\": \"Simple description\"\n" + "}"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(403));
-    }
-
-    /**
      * 지원하지 않는 http method 요청시 ex) patch
      */
     @Test
