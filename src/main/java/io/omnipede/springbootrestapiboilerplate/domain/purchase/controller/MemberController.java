@@ -4,11 +4,8 @@ import io.omnipede.springbootrestapiboilerplate.domain.purchase.dto.MemberSignin
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Member;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.MemberProduct;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Product;
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.repository.MemberProductRepository;
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.repository.MemberRepository;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.service.MemberService;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.service.PurchaseService;
-import io.omnipede.springbootrestapiboilerplate.domain.topic.TopicDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

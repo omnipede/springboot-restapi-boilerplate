@@ -126,4 +126,29 @@ class MemberControllerTest {
                         )
                 ));
     }
+
+    /**
+     * 회원정보 보기 - 회원 정보가 없을 때
+     */
+    @Test
+    public void profile_NotFound() throws Exception {
+        final String endPoint = "/member/{id}";
+
+        // Call API
+        mockMvc.perform(RestDocumentationRequestBuilders.get(endPoint, "777")
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().is(404))
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+        .andDo(document("member-profile-NotFound",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                pathParameters(
+                        parameterWithName("id").description("회원 아이디")
+                ),
+                responseFields(
+                        fieldWithPath("status").description("Http status"),
+                        fieldWithPath("code").description("Error code"),
+                        fieldWithPath("message").description("Error message")
+                )));
+    }
 }
