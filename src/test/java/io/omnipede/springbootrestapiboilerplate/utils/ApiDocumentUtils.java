@@ -17,7 +17,7 @@ public interface ApiDocumentUtils {
 
     /**
      * Rest docs의 json response 를 보기 좋게 formatting 해주는 preprocessor 를 반환하는 메소드
-     * @return
+     * @return preprocessor
      */
     static OperationResponsePreprocessor getDocumentResponse() {
         return preprocessResponse(prettyPrint());

@@ -14,7 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static io.omnipede.springbootrestapiboilerplate.utils.ApiDocumentUtils.getDocumentRequest;
@@ -40,7 +42,7 @@ class PurchaseControllerTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    final ObjectMapper mapper = new ObjectMapper();
+    final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Product 추가 테스트
@@ -57,7 +59,7 @@ class PurchaseControllerTest {
         Map<String, Object> requestBodyDTO = new HashMap<>();
         requestBodyDTO.put("memberId", member.getId());
         requestBodyDTO.put("productName", "냉장고");
-        String bodyString = mapper.writeValueAsString(requestBodyDTO);
+        String bodyString = objectMapper.writeValueAsString(requestBodyDTO);
 
         // Call api
         mockMvc.perform(post(endPoint)
@@ -81,5 +83,48 @@ class PurchaseControllerTest {
                                 fieldWithPath("status").description("요청 수행 성공")
                         )
                 ));
+    }
+
+    /**
+     * 회원 가입 - Bad request
+     */
+    @Test
+    public void signin_BadRequest() throws Exception {
+        final String endPoint = "/purchase";
+
+        // Invalid request body 생성
+        List<Map<String, Object>> invalidRequestBodies = new ArrayList<>();
+        invalidRequestBodies.add(Map.of("productName", "냉장고")); // "memberId" 없음
+        invalidRequestBodies.add(Map.of("memberId", "12345")); // "productName" 없음
+        invalidRequestBodies.add(Map.of()); // 빈 json
+
+        // Call api for each invalid body
+        invalidRequestBodies.forEach((invalidRequestBody) -> {
+            try {
+                String content = objectMapper.writeValueAsString(invalidRequestBody);
+                // Call api
+                mockMvc.perform(post(endPoint)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$.status").value(400))
+                        .andExpect(jsonPath("$.code").value("C400"))
+                        .andDo(document("purchase/add-BadRequest",
+                                getDocumentResponse(),
+                                responseFields(
+                                        fieldWithPath("status").description("Http status code"),
+                                        fieldWithPath("code").description("Error code"),
+                                        fieldWithPath("message").description("Error message"),
+                                        fieldWithPath("errors").description("Specific reasons of erorrs"),
+                                        fieldWithPath("errors[].field").description("에러 발생한 필드"),
+                                        fieldWithPath("errors[].value").description("클라이언트가 전송한 필드 값"),
+                                        fieldWithPath("errors[].reason").description("에러 발생한 이유")
+                                ))
+                        );
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

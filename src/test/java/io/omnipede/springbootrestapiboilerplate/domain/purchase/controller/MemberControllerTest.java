@@ -1,18 +1,12 @@
 package io.omnipede.springbootrestapiboilerplate.domain.purchase.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.dto.MemberSignin;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Member;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.MemberProduct;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Product;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.repository.MemberProductRepository;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.repository.MemberRepository;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.repository.ProductRepository;
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.service.MemberService;
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.service.ProductService;
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.service.PurchaseService;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -23,19 +17,17 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.crypto.dsig.spec.XPathFilterParameterSpec;
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static io.omnipede.springbootrestapiboilerplate.utils.ApiDocumentUtils.getDocumentRequest;
 import static io.omnipede.springbootrestapiboilerplate.utils.ApiDocumentUtils.getDocumentResponse;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
@@ -56,7 +48,7 @@ class MemberControllerTest {
     @Autowired
     private MemberProductRepository memberProductRepository;
 
-    final ObjectMapper mapper = new ObjectMapper();
+    final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * 회원가입 테스트
@@ -65,10 +57,10 @@ class MemberControllerTest {
     public void signin() throws Exception {
         final String endPoint = "/member/signin";
 
-        // Body to request
+        // Request body
         Map<String, Object> requestBodyDTO = new HashMap<>();
         requestBodyDTO.put("username", "김길동");
-        String bodyString = mapper.writeValueAsString(requestBodyDTO);
+        String bodyString = objectMapper.writeValueAsString(requestBodyDTO);
         // Call api
         mockMvc.perform(post(endPoint)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -89,7 +81,50 @@ class MemberControllerTest {
     }
 
     /**
-     * 회원 정보보기 테스트
+     * 회원 가입 - Bad request
+     */
+    @Test
+    public void signin_BadRequest() throws Exception {
+        final String endPoint = "/member/signin";
+
+        // Invalid request body 생성
+        List<Map<String, Object>> invalidRequestBodies = new ArrayList<>();
+        invalidRequestBodies.add(Map.of("username", "12345")); // Invalid format
+        invalidRequestBodies.add(Map.of("Username", "김길동")); // Invalid key
+        invalidRequestBodies.add(Map.of()); // "username" field not exists
+
+        //
+        invalidRequestBodies.forEach((invalidRequestBody) -> {
+            try {
+                String content = objectMapper.writeValueAsString(invalidRequestBody);
+                // Call api
+                mockMvc.perform(post(endPoint)
+                            .contentType(MediaType.APPLICATION_JSON)
+                            .content(content))
+                        .andExpect(status().isBadRequest())
+                        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(jsonPath("$.status").value(400))
+                        .andExpect(jsonPath("$.code").value("C400"))
+                        .andDo(document("member/signin-BadRequest",
+                                getDocumentResponse(),
+                                responseFields(
+                                        fieldWithPath("status").description("Http status code"),
+                                        fieldWithPath("code").description("Error code"),
+                                        fieldWithPath("message").description("Error message"),
+                                        fieldWithPath("errors").description("Specific reasons of erorrs"),
+                                        fieldWithPath("errors[].field").description("에러 발생한 필드"),
+                                        fieldWithPath("errors[].value").description("클라이언트가 전송한 필드 값"),
+                                        fieldWithPath("errors[].reason").description("에러 발생한 이유")
+                                ))
+                        );
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
+    /**
+     * 회원 정보 보기 테스트
      */
     @Test
     public void profile() throws Exception {
