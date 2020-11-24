@@ -23,23 +23,4 @@ public class SpringbootRestapiBoilerplateApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootRestapiBoilerplateApplication.class, args);
 	}
-
-	/**
-	 * UTF-8 인코딩을 위해 등록
-	 */
-	@Bean
-	public HttpMessageConverter<String> responseBodyConverter() {
-		return new StringHttpMessageConverter(StandardCharsets.UTF_8);
-	}
-
-	/**
-	 * UTF-8 인코딩을 위해 등록
-	 */
-	@Bean
-	public CharacterEncodingFilter characterEncodingFilter() {
-		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-		characterEncodingFilter.setEncoding("UTF-8");
-		characterEncodingFilter.setForceEncoding(true);
-		return characterEncodingFilter;
-	}
 }
