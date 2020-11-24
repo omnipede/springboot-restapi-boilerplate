@@ -23,6 +23,18 @@ $ ./gradlew bootRun
 $ java -jar ./build/libs/*.jar
 ```
 
+### Auto reload run
+코드 수정할 때 마다 서버가 자동으로 재시작하게 하려면 다음 두 커맨드를 입력하면 된다.
+
+* 자동 빌드
+```shell script
+$ ./gradlew build --continuous -xtest
+```
+
+```shell script
+$ ./gradlew bootRun
+```
+
 ## 데이터베이스 접속 정보
 본 boilerplate 는 mysql 데이터베이스를 사용하고 있으며 다른 데이터베이스로 교체시 적절한 dependency 를 추가해줘야 함  
 [application-dev.properties](./src/main/resources/application-dev.properties) 를 수정하여 데이터베이스에 접속해야 함
@@ -50,13 +62,6 @@ Restdocs 라이브러리를 활용하여 API 문서를 자동화함.
 1. 서버 실행
 2. ```{ServerDomain}/docs/api-guide.html``` 접속
 
-## Admin dashboard
-[application.properties](./src/main/resources/application.properties) 를 적절히 수정하여 어드민 서버 대시보드를 통해 본 서버를 모니터링 할 수 있음  
-```properties
-# 어드민 서버 URL 및 접속 정보
-spring.boot.admin.client.url=http://localhost:18080
-spring.boot.admin.client.username=omnipede
-spring.boot.admin.client.password=password
-```
-
-어드민 서버 배포 방법에 대한 자세한 내용은 다음 [링크](https://github.com/omnipede/springboot-admin-server) 참조
+## 참조: Admin dashboard
+다음 [링크](https://github.com/omnipede/springboot-admin-server) 를 참조하면 spring boot 서버를 모니터링 할 수 있는
+spring boot admin server 를 세팅할 수 있다.
