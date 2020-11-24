@@ -12,20 +12,6 @@ omnipede;
 
 == 사용자 관리
 
-=== Sign in
-회원가입 API
-
-==== Http request
-include::{snippets}/member/signin/http-request.adoc[]
-
-==== Request body
-include::{snippets}/member/signin/request-body.adoc[]
-include::{snippets}/member/signin/request-fields.adoc[]
-
-==== Response body (OK)
-include::{snippets}/member/signin/response-body.adoc[]
-include::{snippets}/member/signin/response-fields.adoc[]
-
 === Profile
 회원정보 API
 

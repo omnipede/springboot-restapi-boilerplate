@@ -1,12 +1,13 @@
 package io.omnipede.springbootrestapiboilerplate.domain.purchase.controller;
 
-import io.omnipede.springbootrestapiboilerplate.domain.purchase.dto.MemberSigninDTO;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.dto.ProfileDTO;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Member;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.MemberProduct;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.entity.Product;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.service.MemberService;
 import io.omnipede.springbootrestapiboilerplate.domain.purchase.service.PurchaseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -27,20 +28,7 @@ public class MemberController {
     @Autowired
     private PurchaseService purchaseService;
 
-    /**
-     * 회원가입 (멤버 추가)
-     */
-    @RequestMapping(method=RequestMethod.POST, value="/member/signin", headers="accept=application/json")
-    public @ResponseBody
-    Map<String, Object> signin(@RequestBody @Valid MemberSigninDTO dto) {
-        String username = dto.getUsername();
-        // 멤버 추가 및 영속화
-        memberService.createAndSaveMember(username);
-        // 응답
-        Map<String, Object> responseBodyDTO = new HashMap<>();
-        responseBodyDTO.put("status", 200);
-        return responseBodyDTO;
-    }
+    private Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     /**
      * 회원 정보 가져오기
@@ -49,6 +37,7 @@ public class MemberController {
     Map<String, Object> profile(@Valid ProfileDTO dto) {
         Long id = dto.getId();
         Member member = memberService.findMember(id);
+
         // Member 가 구입한 상품 목록을 반환함
         List<MemberProduct> memberProduct = purchaseService.findByMember(member);
         List<Map<String, Object>> productJsonList = new ArrayList<>();
