@@ -22,7 +22,7 @@ public class ErrorJsonResponse {
     // Http status (e.g. 200, 304, 404 ...)
     private int status;
     // Error code
-    private String code;
+    private int code;
     // Error message
     private String message;
     // Field error
@@ -50,6 +50,10 @@ public class ErrorJsonResponse {
         return new ErrorJsonResponse(errorCode);
     }
 
+    public static ErrorJsonResponse of(ErrorCode errorCode, final List<FieldError> errors) {
+        return new ErrorJsonResponse(errorCode, errors);
+    }
+
     public static ErrorJsonResponse of(ErrorCode errorCode, String specificReason) {
         final List<FieldError> errors = FieldError.of("Specific reason", "", specificReason);
         return of(errorCode, errors);
@@ -64,10 +68,6 @@ public class ErrorJsonResponse {
         final String value = e.getValue() == null ? "" : e.getValue().toString();
         final List<FieldError> errors = FieldError.of(e.getName(), value, e.getErrorCode());
         return of(errorCode, errors);
-    }
-
-    public static ErrorJsonResponse of(ErrorCode errorCode, final List<FieldError> errors) {
-        return new ErrorJsonResponse(errorCode, errors);
     }
 
     @Getter
