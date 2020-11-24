@@ -27,12 +27,12 @@
         </rollingPolicy>
     </appender>
 
+    <!--
     <logger name="io.omnipede.springbootrestapiboilerplate" level="DEBUG">
         <appender-ref ref="CONSOLE" />
     </logger>
-    <!--
+    -->
     <root level="INFO">
         <appender-ref ref="CONSOLE" />
     </root>
-    -->
 </configuration>
