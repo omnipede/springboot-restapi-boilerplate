@@ -12,9 +12,11 @@ import org.springframework.util.StopWatch;
 
 /**
  * Logging 용 aspect
+ * @deprecated
  */
-@Component
-@Aspect
+@Deprecated
+// @Component
+// @Aspect
 public class LoggingAdvice {
     private static final Logger logger = LoggerFactory.getLogger(LoggingAdvice.class);
     private static final ObjectMapper objectMapper = new ObjectMapper();
