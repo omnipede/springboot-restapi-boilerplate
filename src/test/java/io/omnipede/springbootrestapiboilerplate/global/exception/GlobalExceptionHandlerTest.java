@@ -30,7 +30,8 @@ class GlobalExceptionHandlerTest {
     void handleNoHandlerFoundException() throws Exception {
         mockMvc.perform(get("/wrong/uri"))
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(404));
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.code").value(40400));
     }
 
     /**
@@ -45,7 +46,7 @@ class GlobalExceptionHandlerTest {
             .content(contentString))
         .andExpect(status().isBadRequest())
         .andExpect(jsonPath("$.status").value(400))
-        .andExpect(jsonPath("$.code").value("C400"));
+        .andExpect(jsonPath("$.code").value(40000));
     }
 
     /**
@@ -53,8 +54,9 @@ class GlobalExceptionHandlerTest {
      */
     @Test
     void handleHttpRequestMethodNotSupportedException() throws Exception {
-        mockMvc.perform(patch("/topics"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status").value(404));
+        mockMvc.perform(patch("/token"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.code").value(40400));
     }
 }

@@ -104,7 +104,7 @@ class MemberControllerTest {
                         .andExpect(status().isBadRequest())
                         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("$.status").value(400))
-                        .andExpect(jsonPath("$.code").value("C400"))
+                        .andExpect(jsonPath("$.code").value(40000))
                         .andDo(document("member/signin-BadRequest",
                                 getDocumentResponse(),
                                 responseFields(
