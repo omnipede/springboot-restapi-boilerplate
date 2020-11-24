@@ -3,6 +3,7 @@ package io.omnipede.springbootrestapiboilerplate.global.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -28,6 +29,17 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	protected ResponseEntity<ErrorJsonResponse> handleMethodArgumentNotValidException (final MethodArgumentNotValidException e) {
 		ErrorCode errorCode  = ErrorCode.BAD_REQUEST;
+		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, e.getBindingResult());
+		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+	}
+
+	/**
+	 * Bind exception handler,
+	 * Path parameter 또는 Query parameter validation 시 주로 발생
+	 */
+	@ExceptionHandler(BindException.class)
+	protected ResponseEntity<ErrorJsonResponse> handleBindException (final BindException e) {
+		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, e.getBindingResult());
 		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
 	}
@@ -116,4 +128,6 @@ public class GlobalExceptionHandler {
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, e.getMessage());
 		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
 	}
+
+	// @TODO 공통되는 코드 private method 로 추출하기
 }
