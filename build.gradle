@@ -27,8 +27,6 @@ dependencies {
     testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    compile group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: '2.3.0'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.3.3.RELEASE'
 }
 
 group = 'io.omnipede.springboot-rest-api-boilerplate'
