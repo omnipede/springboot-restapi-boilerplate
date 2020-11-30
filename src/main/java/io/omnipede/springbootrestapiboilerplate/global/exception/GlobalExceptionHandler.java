@@ -1,5 +1,7 @@
 package io.omnipede.springbootrestapiboilerplate.global.exception;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+	private Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 	/**
 	 *  javax.validation.Valid or @Validated 으로 binding error 발생시 발생한다.
 	 *  HttpMessageConverter 에서 등록한 HttpMessageConverter binding 못할경우 발생
@@ -30,7 +33,7 @@ public class GlobalExceptionHandler {
 	protected ResponseEntity<ErrorJsonResponse> handleMethodArgumentNotValidException (final MethodArgumentNotValidException e) {
 		ErrorCode errorCode  = ErrorCode.BAD_REQUEST;
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, e.getBindingResult());
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return createResponseEntityAndLogError(response, e);
 	}
 
 	/**
@@ -41,7 +44,7 @@ public class GlobalExceptionHandler {
 	protected ResponseEntity<ErrorJsonResponse> handleBindException (final BindException e) {
 		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, e.getBindingResult());
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return createResponseEntityAndLogError(response, e);
 	}
 
 	/**
@@ -52,7 +55,7 @@ public class GlobalExceptionHandler {
 	protected ResponseEntity<ErrorJsonResponse> handleMethodArgumentTypeMismatchException(final MethodArgumentTypeMismatchException e) {
 		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, e);
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return createResponseEntityAndLogError(response, e);
 	}
 
 	/**
@@ -72,7 +75,7 @@ public class GlobalExceptionHandler {
 						e.getMessage() // Set specific message
 				)
 		);
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return createResponseEntityAndLogError(response, e);
 	}
 
 	/**
@@ -85,7 +88,7 @@ public class GlobalExceptionHandler {
 	protected ResponseEntity<ErrorJsonResponse> handleHttpMessageNotReadableException (final HttpMessageNotReadableException e) {
 		ErrorCode errorCode = ErrorCode.BAD_REQUEST;
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, "Can't read http message ... Please check your request format.");
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return createResponseEntityAndLogError(response, e);
 	}
 
 	/**
@@ -95,7 +98,7 @@ public class GlobalExceptionHandler {
 	protected ResponseEntity<ErrorJsonResponse> handleNoHandlerFoundException(final NoHandlerFoundException e) {
 		ErrorCode errorCode = ErrorCode.URL_NOT_FOUND;
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, "Maybe you are requesting wrong uri.");
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return createResponseEntityAndLogError(response, e);
 	}
 
 	/**
@@ -105,7 +108,7 @@ public class GlobalExceptionHandler {
 	protected ResponseEntity<ErrorJsonResponse> handleHttpRequestMethodNotSupportedException(final HttpRequestMethodNotSupportedException e) {
 		ErrorCode errorCode = ErrorCode.URL_NOT_FOUND;
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, "Maybe you are requesting wrong http method.");
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return createResponseEntityAndLogError(response, e);
 	}
 
 	/**
@@ -115,7 +118,7 @@ public class GlobalExceptionHandler {
 	protected ResponseEntity<ErrorJsonResponse> handleBusinessException(final BusinessException e) {
 		ErrorCode errorCode = e.getErrorCode();
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode);
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return createResponseEntityAndLogError(response, e);
 	}
 
 	/**
@@ -124,10 +127,18 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(Exception.class)
 	protected ResponseEntity<ErrorJsonResponse> handleException(final Exception e) {
 		ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
-		e.printStackTrace(System.out);
 		final ErrorJsonResponse response = ErrorJsonResponse.of(errorCode, e.getMessage());
-		return new ResponseEntity<>(response, HttpStatus.valueOf(response.getStatus()));
+		return createResponseEntityAndLogError(response, e);
 	}
 
-	// @TODO 공통되는 코드 private method 로 추출하기
+	/**
+	 * Response entity 를 반환하고 에러를 로깅하는 메소드
+	 * @param errorJsonResponse Error json response body
+	 * @param e Error object
+	 * @return Response entity
+	 */
+	private ResponseEntity<ErrorJsonResponse> createResponseEntityAndLogError(ErrorJsonResponse errorJsonResponse, Throwable e) {
+		logger.error(e.getMessage());
+		return new ResponseEntity<>(errorJsonResponse, HttpStatus.valueOf(errorJsonResponse.getStatus()));
+	}
 }
