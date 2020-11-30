@@ -89,23 +89,31 @@ class PurchaseControllerTest {
      * 회원 가입 - Bad request
      */
     @Test
-    public void signin_BadRequest() throws Exception {
+    public void purchase_BadRequest() throws Exception {
         final String endPoint = "/purchase";
 
-        // Invalid request body 생성
-        List<Map<String, Object>> invalidRequestBodies = new ArrayList<>();
-        invalidRequestBodies.add(Map.of("productName", "냉장고")); // "memberId" 없음
-        invalidRequestBodies.add(Map.of("memberId", "12345")); // "productName" 없음
-        invalidRequestBodies.add(Map.of()); // 빈 json
+        // Given
+        List<Map<String, Object>> invalidRequestBodyList = new ArrayList<>();
+
+        // No 'productName' field
+        Map<String, Object> body = new HashMap<>();
+        body.put("memberId", "1");
+        invalidRequestBodyList.add(body);
+
+        // No 'memberId' field
+        body = new HashMap<>();
+        body.put("productName", "냉장고");
+        invalidRequestBodyList.add(body);
 
         // Call api for each invalid body
-        invalidRequestBodies.forEach((invalidRequestBody) -> {
+        invalidRequestBodyList.forEach((invalidRequestBody) -> {
             try {
                 String content = objectMapper.writeValueAsString(invalidRequestBody);
-                // Call api
+                // When
                 mockMvc.perform(post(endPoint)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(content))
+                        // Then
                         .andExpect(status().isBadRequest())
                         .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                         .andExpect(jsonPath("$.status").value(400))
