@@ -50,7 +50,7 @@ class PurchaseControllerTest {
      */
     @Test
     public void purchase() throws Exception {
-        final String endPoint = "/purchase";
+        final String endPoint = "/api/v1/purchase";
 
         // 테스트용 데이터 추가
         Member member = memberRepository.save(new Member("김길동"));
@@ -90,7 +90,7 @@ class PurchaseControllerTest {
      */
     @Test
     public void purchase_BadRequest() throws Exception {
-        final String endPoint = "/purchase";
+        final String endPoint = "/api/v1/purchase";
 
         // Given
         List<Map<String, Object>> invalidRequestBodyList = new ArrayList<>();

@@ -20,6 +20,7 @@ import java.util.Map;
 
 @RestController
 @Validated
+@RequestMapping("/api/v1")
 public class MemberController {
 
     @Autowired

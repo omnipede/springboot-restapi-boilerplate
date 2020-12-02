@@ -41,7 +41,7 @@ class GlobalExceptionHandlerTest {
     @Test
     void handleHttpmessageNotReadableException () throws Exception {
         String contentString = "{\"memberId\": \"12345\", }";
-        mockMvc.perform(post("/purchase")
+        mockMvc.perform(post("/api/v1/purchase")
             .contentType(MediaType.APPLICATION_JSON)
             .content(contentString))
         .andExpect(status().isBadRequest())

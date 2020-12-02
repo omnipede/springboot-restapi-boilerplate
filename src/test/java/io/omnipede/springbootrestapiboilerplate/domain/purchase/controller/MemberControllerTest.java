@@ -55,7 +55,7 @@ class MemberControllerTest {
      */
     @Test
     public void profile() throws Exception {
-        final String endPoint = "/member/{id}";
+        final String endPoint = "/api/v1/member/{id}";
 
         // 테스트용 데이터 추가
         Member member = memberRepository.save(new Member("김길동"));
@@ -94,7 +94,7 @@ class MemberControllerTest {
      */
     @Test
     public void profile_NotFound() throws Exception {
-        final String endPoint = "/member/{id}";
+        final String endPoint = "/api/v1/member/{id}";
 
         // Call API
         mockMvc.perform(RestDocumentationRequestBuilders.get(endPoint, "777")
