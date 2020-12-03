@@ -1,5 +1,6 @@
 package io.omnipede.springbootrestapiboilerplate.domain.purchase.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

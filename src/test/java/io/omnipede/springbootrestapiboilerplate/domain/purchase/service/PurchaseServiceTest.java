@@ -45,22 +45,4 @@ class PurchaseServiceTest {
         MemberProduct mp = memberProductRepository.findById(memberProduct.getId()).orElseGet(() -> null);
         assertNotEquals(mp, null);
     }
-
-    @Test
-    public void findByMember() throws Exception {
-        Member member = memberRepository.save(new Member("김길동"));
-        Product product = productRepository.save(new Product("냉장고"));
-
-        purchaseService.purchase(member, product);
-
-        memberProductRepository.save(new MemberProduct(member, product));
-
-        List<MemberProduct> memberProductList = purchaseService.findByMember(member);
-        assertNotEquals(memberProductList.size(), 0);
-
-        memberProductList.forEach((mp)  -> {
-            assertEquals(mp.getMember().getId(), member.getId());
-            assertEquals(mp.getProduct().getId(), product.getId());
-        });
-    }
 }
