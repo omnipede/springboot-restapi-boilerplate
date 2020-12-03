@@ -1,5 +1,6 @@
 package io.omnipede.springbootrestapiboilerplate.domain.purchase.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,8 +14,11 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PurchaseDTO {
-    @NotNull(message = "Member id is required")
+    @JsonProperty("member_id")
+    @NotNull(message = "member_id is required")
     private Long memberId;
+
+    @JsonProperty("product_name")
     @NotEmpty(message = "Product name is required")
     private String productName;
 }
