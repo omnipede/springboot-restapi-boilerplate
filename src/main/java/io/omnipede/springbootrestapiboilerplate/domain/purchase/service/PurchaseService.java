@@ -28,4 +28,14 @@ public class PurchaseService {
         MemberProduct memberProduct = new MemberProduct(member, product);
         return memberProductRepository.save(memberProduct);
     }
+
+    /**
+     * 사용자의 구매기록을 조회하는 메소드
+     * @param member 사용자
+     * @return 사용자가 구매한 상품 목록
+     */
+    public List<MemberProduct> findByMember(Member member) {
+        Long memberId = member.getId();
+        return memberProductRepository.findByMemberId(memberId);
+    }
 }
