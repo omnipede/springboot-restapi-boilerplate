@@ -57,8 +57,8 @@ class PurchaseControllerTest {
 
         // Body to request
         Map<String, Object> requestBodyDTO = new HashMap<>();
-        requestBodyDTO.put("memberId", member.getId());
-        requestBodyDTO.put("productName", "냉장고");
+        requestBodyDTO.put("member_id", member.getId());
+        requestBodyDTO.put("product_name", "냉장고");
         String bodyString = objectMapper.writeValueAsString(requestBodyDTO);
 
         // Call api
@@ -76,8 +76,8 @@ class PurchaseControllerTest {
                                 headerWithName("test").description("Header documentation test").optional()
                         ),
                         requestFields(
-                                fieldWithPath("memberId").description("상품 구입할 멤버 아이디"),
-                                fieldWithPath("productName").description("구입하는 상품 이름")
+                                fieldWithPath("member_id").description("상품 구입할 멤버 아이디"),
+                                fieldWithPath("product_name").description("구입하는 상품 이름")
                         ),
                         responseFields(
                                 fieldWithPath("status").description("요청 수행 성공")
