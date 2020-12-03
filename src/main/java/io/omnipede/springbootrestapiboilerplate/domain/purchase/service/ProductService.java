@@ -7,8 +7,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
-    @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     /**
      * 상품을 데이터베이스에 추가하는 메소드

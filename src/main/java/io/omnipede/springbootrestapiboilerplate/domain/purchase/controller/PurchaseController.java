@@ -17,14 +17,16 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public class PurchaseController {
 
-    @Autowired
     private MemberService memberService;
-
-    @Autowired
     private ProductService productService;
+    private PurchaseService purchaseService;
 
     @Autowired
-    private PurchaseService purchaseService;
+    public PurchaseController(MemberService memberService, ProductService productService, PurchaseService purchaseService) {
+        this.memberService = memberService;
+        this.productService = productService;
+        this.purchaseService = purchaseService;
+    }
 
     @RequestMapping(method= RequestMethod.POST, value="/purchase", headers="accept=application/json")
     public @ResponseBody

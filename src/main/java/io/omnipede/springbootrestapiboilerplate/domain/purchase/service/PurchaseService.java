@@ -11,8 +11,12 @@ import java.util.List;
 
 @Service
 public class PurchaseService {
-    @Autowired
     private MemberProductRepository memberProductRepository;
+
+    @Autowired
+    public PurchaseService(MemberProductRepository memberProductRepository) {
+        this.memberProductRepository = memberProductRepository;
+    }
 
     /**
      * 사용자의 구매기록을 추가하는 메소드

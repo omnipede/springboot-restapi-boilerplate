@@ -23,13 +23,14 @@ import java.util.Map;
 @RequestMapping("/api/v1")
 public class MemberController {
 
-    @Autowired
     private MemberService memberService;
-
-    @Autowired
     private PurchaseService purchaseService;
 
-    private Logger logger = LoggerFactory.getLogger(MemberController.class);
+    @Autowired
+    public MemberController(MemberService memberService, PurchaseService purchaseService) {
+        this.memberService = memberService;
+        this.purchaseService = purchaseService;
+    }
 
     /**
      * 회원 정보 가져오기
