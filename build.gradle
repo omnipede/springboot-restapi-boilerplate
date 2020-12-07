@@ -1,64 +1,6 @@
-plugins {
-    id 'org.springframework.boot' version '2.3.3.RELEASE'
-    id 'org.asciidoctor.convert' version "1.5.3" // Rest docs plugin
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-    id 'java'
-}
-
-repositories {
-    mavenLocal()
-    maven {
-        url = 'https://repo.maven.apache.org/maven2'
+subprojects {
+    repositories {
+        mavenLocal()
+        mavenCentral()
     }
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-devtools'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    runtimeOnly 'mysql:mysql-connector-java'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-}
-
-group = 'io.omnipede.springboot-rest-api-boilerplate'
-version = '0.0.1-SNAPSHOT'
-description = 'springboot-restapi-boilerplate'
-sourceCompatibility = '1.8'
-
-test {
-    useJUnitPlatform { }
-}
-
-// Restdocs 라이브러리의 템플릿인 adoc 파일을 빌드하는 asciidoctor 플러그인 관련 설정
-asciidoctor {
-    sourceDir 'src/main/asciidoc'
-    outputDir "${buildDir}/docs"
-    dependsOn test // 'test' task 실행 후 'asciidoctor' task 실행
-}
-
-bootJar {
-    dependsOn asciidoctor // 'asciidoctor' task 실행 후 'bootJar' task 실행
-    from ("${asciidoctor.outputDir}/html5") {
-        into 'static/docs'
-    }
-}
-
-// bootRun 시 restdocs 가 복사되지 않는 문제를 해결하기위해 복사하는 task
-task copyRestDocs(type: Copy) {
-    dependsOn asciidoctor // 'asciidoctor' task 실행 후 'copyRestDocs' task 실행
-    from "${asciidoctor.outputDir}/html5"
-    into "${sourceSets.main.output.resourcesDir}/static/docs"
-}
-
-// copyRestDocs 후 bootRun
-bootRun {
-    dependsOn copyRestDocs // 'copyRestDocs' task 실행 후 'bootRun' task 실행
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
 }
