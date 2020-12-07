@@ -1,0 +1,17 @@
+server:
+  port: 8081
+
+spring:
+  # Data source 설정
+  datasource:
+    url: 'jdbc:mysql://localhost:3306/springboot_development?serverTimezone=UTC&characterEncoding=UTF-8'
+    username: 'root'
+    password: 'password'
+  jpa:
+    # 운영에서는 ddl-auto 를 수정하자
+    hibernate:
+      ddl-auto: 'update'
+    # Mysql8 기준
+    database-platform: 'org.hibernate.dialect.MySQL8Dialect'
+    # JPA sql 로깅
+    show-sql: true

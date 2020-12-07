@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: 'dev'
+  # Not found url 에 대해 에러 throw 하도록 설정
+  resources:
+    add-mappings: false
+  mvc:
+    throw-exception-if-no-handler-found: true
+  jackson:
+    # Jackson 을 이용한 json 변환 시 null property 삭제
+    default-property-inclusion: 'non_null'
+  http:
+    # Http encoding 설정
+    encoding:
+      charset: 'UTF-8'
+      enabled: true
+      force: true
+      force-response: true
