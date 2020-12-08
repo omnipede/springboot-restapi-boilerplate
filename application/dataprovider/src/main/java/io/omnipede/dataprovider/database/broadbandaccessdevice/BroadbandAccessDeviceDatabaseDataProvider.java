@@ -1,11 +1,11 @@
 package io.omnipede.dataprovider.database.broadbandaccessdevice;
 
 import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeEntity;
-import io.omnipede.springbootrestapiboilerplate.core.entity.BroadbandAccessDevice;
-import io.omnipede.springbootrestapiboilerplate.core.entity.DeviceType;
-import io.omnipede.springbootrestapiboilerplate.core.entity.Exchange;
-import io.omnipede.springbootrestapiboilerplate.core.usecase.broadbandaccessdevice.getdetails.GetDeviceDetails;
-import io.omnipede.springbootrestapiboilerplate.core.usecase.exchange.getcapacity.GetAvailablePortsOfAllDevicesInExchange;
+import io.omnipede.core.entity.BroadbandAccessDevice;
+import io.omnipede.core.entity.DeviceType;
+import io.omnipede.core.entity.Exchange;
+import io.omnipede.core.usecase.broadbandaccessdevice.getdetails.GetDeviceDetails;
+import io.omnipede.core.usecase.exchange.getcapacity.GetAvailablePortsOfAllDevicesInExchange;
 import io.omnipede.dataprovider.jpa.broadbandaccessdevice.BroadbandAccessDeviceEntity;
 import io.omnipede.dataprovider.jpa.broadbandaccessdevice.BroadbandAccessDeviceRepository;
 import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeRepository;

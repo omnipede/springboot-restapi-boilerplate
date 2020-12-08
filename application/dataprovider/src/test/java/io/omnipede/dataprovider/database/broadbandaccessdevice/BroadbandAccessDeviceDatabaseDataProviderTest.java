@@ -4,8 +4,8 @@ import io.omnipede.dataprovider.jpa.broadbandaccessdevice.BroadbandAccessDeviceE
 import io.omnipede.dataprovider.jpa.broadbandaccessdevice.BroadbandAccessDeviceRepository;
 import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeEntity;
 import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeRepository;
-import io.omnipede.springbootrestapiboilerplate.core.entity.BroadbandAccessDevice;
-import io.omnipede.springbootrestapiboilerplate.core.entity.DeviceType;
+import io.omnipede.core.entity.BroadbandAccessDevice;
+import io.omnipede.core.entity.DeviceType;
 import org.junit.Test;
 
 import java.util.List;

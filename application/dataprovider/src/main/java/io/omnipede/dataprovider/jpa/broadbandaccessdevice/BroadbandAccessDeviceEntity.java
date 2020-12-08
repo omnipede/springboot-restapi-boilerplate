@@ -1,6 +1,6 @@
 package io.omnipede.dataprovider.jpa.broadbandaccessdevice;
 
-import io.omnipede.springbootrestapiboilerplate.core.entity.DeviceType;
+import io.omnipede.core.entity.DeviceType;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 

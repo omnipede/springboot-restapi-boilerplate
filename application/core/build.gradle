@@ -4,9 +4,9 @@ plugins {
 
 version '0.0.1-SNAPSHOT'
 
-group = 'io.omnipede.springboot-rest-api-boilerplate'
+group = 'io.omnipede.core'
 version = '0.0.1-SNAPSHOT'
-description = 'springboot-restapi-boilerplate'
+description = 'Core module of spring boot rest api'
 sourceCompatibility = 1.8
 
 repositories {
