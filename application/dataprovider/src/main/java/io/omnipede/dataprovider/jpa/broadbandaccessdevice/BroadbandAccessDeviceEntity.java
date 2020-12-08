@@ -35,7 +35,7 @@ public class BroadbandAccessDeviceEntity {
     private Date createAt;
 
     @ManyToOne
-    @JoinColumn(name = "exchange_id")
+    @JoinColumn(name = "exchange_id", nullable = false)
     private ExchangeEntity exchangeEntity;
 
     @Enumerated(EnumType.STRING)

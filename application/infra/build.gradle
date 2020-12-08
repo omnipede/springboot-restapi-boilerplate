@@ -13,6 +13,9 @@ repositories {
 }
 
 dependencies {
+    compile project(":application:core")
+    compile project(":application:dataprovider")
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-devtools'
