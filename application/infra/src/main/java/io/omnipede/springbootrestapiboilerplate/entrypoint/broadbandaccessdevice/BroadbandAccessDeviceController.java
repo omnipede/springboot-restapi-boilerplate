@@ -26,10 +26,8 @@ public class BroadbandAccessDeviceController {
     private static final Logger logger = LoggerFactory.getLogger(BroadbandAccessDeviceController.class);
 
     @Autowired
-    public BroadbandAccessDeviceController(BroadbandAccessDeviceRepository broadbandAccessDeviceRepository, ExchangeRepository exchangeRepository) {
-        GetDeviceDetails getDeviceDetails
-                = new BroadbandAccessDeviceDatabaseDataProvider(broadbandAccessDeviceRepository, exchangeRepository);
-        this.getBroadbandAccessDeviceDetailsUseCase = new GetBroadbandAccessDeviceDetailsUseCase(getDeviceDetails);
+    public BroadbandAccessDeviceController(GetBroadbandAccessDeviceDetailsUseCase getBroadbandAccessDeviceDetailsUseCase) {
+        this.getBroadbandAccessDeviceDetailsUseCase = getBroadbandAccessDeviceDetailsUseCase;
     }
 
     @GetMapping(value="/broadbandaccessdevice/{hostname}", headers="accept=application/json")
