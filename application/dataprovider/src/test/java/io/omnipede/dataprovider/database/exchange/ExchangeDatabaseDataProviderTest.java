@@ -1,6 +1,5 @@
 package io.omnipede.dataprovider.database.exchange;
 
-import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeEntity;
 import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeRepository;
 import org.junit.jupiter.api.Test;
 
