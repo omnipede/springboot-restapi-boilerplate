@@ -1,5 +1,5 @@
 rootProject.name = 'springboot-rest-api-boilerplate'
 
 include 'application:core'
-include 'application:infra'
+include 'application:rest'
 include 'application:dataprovider'
