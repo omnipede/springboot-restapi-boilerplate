@@ -3,10 +3,6 @@ package io.omnipede.springbootrestapiboilerplate.entrypoint.broadbandaccessdevic
 import io.omnipede.core.entity.BroadbandAccessDevice;
 import io.omnipede.core.usecase.broadbandaccessdevice.getdetails.DeviceNotFoundException;
 import io.omnipede.core.usecase.broadbandaccessdevice.getdetails.GetBroadbandAccessDeviceDetailsUseCase;
-import io.omnipede.core.usecase.broadbandaccessdevice.getdetails.GetDeviceDetails;
-import io.omnipede.dataprovider.database.broadbandaccessdevice.BroadbandAccessDeviceDatabaseDataProvider;
-import io.omnipede.dataprovider.jpa.broadbandaccessdevice.BroadbandAccessDeviceRepository;
-import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeRepository;
 import io.omnipede.springbootrestapiboilerplate.global.exception.BusinessException;
 import io.omnipede.springbootrestapiboilerplate.global.exception.ErrorCode;
 import org.slf4j.Logger;

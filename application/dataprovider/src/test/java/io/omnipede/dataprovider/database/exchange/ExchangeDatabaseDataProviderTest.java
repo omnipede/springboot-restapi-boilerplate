@@ -1,6 +1,6 @@
 package io.omnipede.dataprovider.database.exchange;
 
-import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeRepository;
+import io.omnipede.dataprovider.jpa.exchange.ExchangeRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

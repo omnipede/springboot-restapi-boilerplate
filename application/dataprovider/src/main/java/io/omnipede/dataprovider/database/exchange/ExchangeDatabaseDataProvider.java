@@ -1,7 +1,7 @@
 package io.omnipede.dataprovider.database.exchange;
 
 import io.omnipede.core.usecase.exchange.getcapacity.DoesExchangeExist;
-import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeRepository;
+import io.omnipede.dataprovider.jpa.exchange.ExchangeRepository;
 
 public class ExchangeDatabaseDataProvider implements DoesExchangeExist {
 

@@ -1,6 +1,7 @@
 package io.omnipede.dataprovider.jpa.broadbandaccessdevice;
 
 import io.omnipede.core.entity.DeviceType;
+import io.omnipede.dataprovider.jpa.exchange.ExchangeEntity;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 

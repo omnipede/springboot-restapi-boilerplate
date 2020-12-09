@@ -2,8 +2,8 @@ package io.omnipede.dataprovider.database.broadbandaccessdevice;
 
 import io.omnipede.dataprovider.jpa.broadbandaccessdevice.BroadbandAccessDeviceEntity;
 import io.omnipede.dataprovider.jpa.broadbandaccessdevice.BroadbandAccessDeviceRepository;
-import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeEntity;
-import io.omnipede.dataprovider.jpa.broadbandaccessdevice.ExchangeRepository;
+import io.omnipede.dataprovider.jpa.exchange.ExchangeEntity;
+import io.omnipede.dataprovider.jpa.exchange.ExchangeRepository;
 import io.omnipede.core.entity.BroadbandAccessDevice;
 import io.omnipede.core.entity.DeviceType;
 import org.junit.Test;

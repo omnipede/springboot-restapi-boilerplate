@@ -1,5 +1,6 @@
 package io.omnipede.dataprovider.jpa.broadbandaccessdevice;
 
+import io.omnipede.dataprovider.jpa.exchange.ExchangeEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

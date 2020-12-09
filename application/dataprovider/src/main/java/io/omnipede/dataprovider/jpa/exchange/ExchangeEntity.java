@@ -1,5 +1,6 @@
-package io.omnipede.dataprovider.jpa.broadbandaccessdevice;
+package io.omnipede.dataprovider.jpa.exchange;
 
+import io.omnipede.dataprovider.jpa.broadbandaccessdevice.BroadbandAccessDeviceEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
