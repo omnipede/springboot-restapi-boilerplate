@@ -10,38 +10,26 @@ omnipede;
 :toclevels: 2
 :sectlinks:
 
-== 사용자 관리
-
-=== Profile
-회원정보 API
-
-==== Http request
-include::{snippets}/member/profile/http-request.adoc[]
-
-==== Request body
-include::{snippets}/member/profile/request-body.adoc[]
-
-==== Response body (OK)
-include::{snippets}/member/profile/response-body.adoc[]
-include::{snippets}/member/profile/response-fields.adoc[]
-==== Response body (Not found member)
-include::{snippets}/member/profile-NotFound/response-body.adoc[]
-include::{snippets}/member/profile-NotFound/response-fields.adoc[]
-
-== 상품 구매 관련 API
-=== Purchase
-회원정보 API
+== Broadband access device
+=== Get details
+Device 상세정보를 반환
 
 ==== Http request
-include::{snippets}/purchase/add/http-request.adoc[]
-
-==== Request headers
-include::{snippets}/purchase/add/request-headers.adoc[]
-
-==== Request body
-include::{snippets}/purchase/add/request-body.adoc[]
-include::{snippets}/purchase/add/request-fields.adoc[]
+include::{snippets}/broadbandaccessdevice/details/http-request.adoc[]
+include::{snippets}/broadbandaccessdevice/details/path-parameters.adoc[]
 
 ==== Response body (OK)
-include::{snippets}/purchase/add/response-body.adoc[]
-include::{snippets}/purchase/add/response-fields.adoc[]
+include::{snippets}/broadbandaccessdevice/details/response-body.adoc[]
+include::{snippets}/broadbandaccessdevice/details/response-fields.adoc[]
+
+== Exchange
+=== Get capacity
+Exchange 에 capacity 여유분이 있는지 반환
+
+==== Http request
+include::{snippets}/exchange/capacity/http-request.adoc[]
+include::{snippets}/exchange/capacity/path-parameters.adoc[]
+
+==== Response body (OK)
+include::{snippets}/exchange/capacity/response-body.adoc[]
+include::{snippets}/exchange/capacity/response-fields.adoc[]
