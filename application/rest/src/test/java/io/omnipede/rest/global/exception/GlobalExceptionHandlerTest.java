@@ -38,16 +38,16 @@ class GlobalExceptionHandlerTest {
      * JSON 형식이 올바르지 않을 경우
      * @throws Exception
      */
-    @Test
-    void handleHttpmessageNotReadableException () throws Exception {
-        String contentString = "{\"memberId\": \"12345\", }";
-        mockMvc.perform(post("/api/v1/purchase")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(contentString))
-        .andExpect(status().isBadRequest())
-        .andExpect(jsonPath("$.status").value(400))
-        .andExpect(jsonPath("$.code").value(40000));
-    }
+//    @Test
+//    void handleHttpmessageNotReadableException () throws Exception {
+//        String contentString = "{\"memberId\": \"12345\", }";
+//        mockMvc.perform(post("/api/v1/purchase")
+//            .contentType(MediaType.APPLICATION_JSON)
+//            .content(contentString))
+//        .andExpect(status().isBadRequest())
+//        .andExpect(jsonPath("$.status").value(400))
+//        .andExpect(jsonPath("$.code").value(40000));
+//    }
 
     /**
      * 지원하지 않는 http method 요청시 ex) patch
